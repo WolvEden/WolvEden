@@ -27,5 +27,27 @@
   };
   firebase.initializeApp(config);
 </script>
+
+<?php
+var showData = document.getElementById("showData");
+var button1 = document.getElementById("but1");
+
+var usersRef = 
+firebase.database().ref('stores/').orderByChild("sid").equalTo(123);
+
+
+
+function s2_but() {   //function gets trigger when button pressed
+    usersRef.on('value', snap);
+
+function snap(data) {
+    data2 = data.val();
+	data3 = data2.entry1.sname;
+    console.log(data3);
+    showData.innerHTML = data3; 
+                                      
+       }
+};
+?>
 </body>
 </html>
