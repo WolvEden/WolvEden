@@ -30,10 +30,10 @@
 
 <?php
 var showData = document.getElementById("showData");
-var button1 = document.getElementById("but1");
+var button1 = document.getElementById("buttonluckydraw");
 
 var usersRef = 
-firebase.database().ref('stores/').orderByChild("sid").equalTo(123);
+firebase.database().ref('PlayerList/').orderByChild("ticketNumber").equalTo("0012");
 
 
 
@@ -49,5 +49,8 @@ function snap(data) {
        }
 };
 ?>
+<form method="post">
+<input type="submit" name="buttonluckydraw" id=buttonluckydraw value="check" />
+</form> 
 </body>
 </html>
