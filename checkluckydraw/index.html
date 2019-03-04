@@ -3,6 +3,13 @@
 <title>Check Your Lucky Draw Remaining</title>
 <body style="background-color:#000" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <center>
+<form>
+
+<p id="showData"></p>
+<input type="input" id="ticketValue">
+<input type="button" name="buttonluckydraw" id="buttonluckydraw" value="Check" onclick="s2_but()">
+
+</form>
 <div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;text-align:left;">
 
 </div>
@@ -17,13 +24,7 @@
 
 <p>กรอกหมายเลขตั๋วเพื่อทำการตรวจสอบจำนวนคงเหลือ</p>
 
-<form>
 
-<p id="showData"></p>
-<input type="input" id="ticketValue">
-<input type="button" name="buttonluckydraw" id="buttonluckydraw" value="Check" onclick="s2_but()">
-
-</form>
 <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-app.js"></script>
 
