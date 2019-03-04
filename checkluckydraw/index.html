@@ -9,6 +9,23 @@
   window.onload = function() { document.body.className = ''; }
   window.ontouchmove = function() { return false; }
   window.onorientationchange = function() { document.body.scrollTop = 0; }
+  
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCPBzJe7xj__L1WXYnd9ujtFyGJmy-Pafw",
+    authDomain: "thailand-ponycon-2019.firebaseapp.com",
+    databaseURL: "https://thailand-ponycon-2019.firebaseio.com",
+    projectId: "thailand-ponycon-2019",
+    storageBucket: "thailand-ponycon-2019.appspot.com",
+    messagingSenderId: "666269465483"
+  };
+  firebase.initializeApp(config);
 </script>
 </body>
 </html>
