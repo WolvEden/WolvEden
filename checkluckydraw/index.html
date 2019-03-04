@@ -2,7 +2,8 @@
 
 <title>Check Your Lucky Draw Remaining</title>
 <body style="background-color:#000" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
-<div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;">
+<center>
+<div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;text-align:left;">
 
 </div>
 <script>
@@ -12,6 +13,17 @@
   
 </script>
 
+<h1>ตรวจสอบจำนวนสิทธิ์ Lucky draw คงเหลือ</h1>
+
+<p>กรอกหมายเลขตั๋วเพื่อทำการตรวจสอบจำนวนคงเหลือ</p>
+
+<form>
+
+<p id="showData"></p>
+<input type="input" id="ticketValue">
+<input type="button" name="buttonluckydraw" id="buttonluckydraw" value="Check" onclick="s2_but()">
+
+</form>
 <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-app.js"></script>
 
@@ -30,30 +42,36 @@
   firebase.initializeApp(config);
 </script>
 
-<?php
+<script>
 var showData = document.getElementById("showData");
 var button1 = document.getElementById("buttonluckydraw");
+var ticketValue = document.getElementById("ticketValue");
 
 var usersRef = 
-firebase.database().ref('PlayerList/').orderByChild("ticketNumber").equalTo("0012");
+firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
 
-
-
-function s2_but() {   //function gets trigger when button pressed
+function s2_but() {   
     usersRef.on('value', snap);
-
-function snap(data) {
+}
+function snap(data) 
+{
     data2 = data.val();
-	data3 = data2.entry1.sname;
-    console.log(data3);
-    showData.innerHTML = data3; 
-    echo data3;                                  
-       }
-};
-?>
-<form>
-<input type="text" name="showData" id="showData" value="data"/>
-<input type="button" name="buttonluckydraw" id="buttonluckydraw" value="check" />
-</form> 
+    	  console.log(data2); 
+	var level1 = ticketValue.value;
+    if(data2[level1])
+    {
+	data3 = data2[level1].luckyDrawRemaining;
+    TicketName =  data2[level1].name;
+	  console.log(data3);  
+    showData.innerHTML = "Name : "+TicketName+ "<br />" +" Your lucky draw remaining : " +data3; 
+   }
+   else
+   {
+    showData.innerHTML = "Your ticket number was not found in our database"
+   }
+}
+	
+</script>
+</center>
 </body>
 </html>
