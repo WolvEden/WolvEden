@@ -56,9 +56,9 @@
     <form>
 
 <p id="showData2"></p>
-<p>Ticket Number* : TPC<input type="input" id="ticketAdd" maxlength=4 size=4></p>
+<p style="display:inline">Ticket Number : TPC<p style="display:inline" id="tpcID"></p> </p>
 <p>Name* : <input type="input" id="nameAdd"></p>
-<p>Lucky Draw : <input type="input" id="nameAdd" maxlength=3 size=3></p>      
+<p>Lucky Draw : <input type="input" id="nameAdd" maxlength=3 size=3 value=0></p>      
 <input type="button" name="buttonluckydraw2" id="buttonluckydraw2" value="OK"  onclick="s2_but()">
 </form>
 <br></br>     
@@ -99,17 +99,25 @@
 
 <script>
   
-  
+  document.getElementById("buttonluckydraw2").disabled = true;
 var showData = document.getElementById("showData");
   var showData2 = document.getElementById("showData2");
-
 var ticketValue = document.getElementById("ticketValue");
-
+  var tpcNextID;
 var usersRef = 
 firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
-
+  var playerCountRef ; 
+  firebase.database().ref('playerCount/').on('value',function(snapCount){
+    playerCountRef =  snapCount.val();
+    tpcNextID = ("000" + (playerCountRef+1).toString()).slice(-3);
+    document.getElementById("tpcID").innerHTML = tpcNextID;
+    document.getElementById("buttonluckydraw2").disabled = false;
+    
+  });//.on("value",function(snapCount){return snapCount.key;});
+  
 function writeUserData(userId, PlayerName, luckyDraw, ticket) 
   {
+    //firebase.database().ref('playerCount').
    usersRef.on((snap)=>{
     data= snap.val();
      count =Object.keys(data).length;
@@ -126,14 +134,13 @@ function s1_but() {
 }
 function snap(data) 
 {
-  
+  console.log(playerCountRef);
     data2 = data.val();
    // key = Object.keys(data2)[0];
     var key="";
     data.forEach((child)=>key=child.key);
     console.log(data2); 
     	 
-
     if(key)
     {
 	data3 = data2[key].luckyDrawRemaining;
