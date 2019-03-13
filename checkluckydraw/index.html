@@ -1,9 +1,40 @@
 <html>
 
 <title>Check Your Lucky Draw Remaining</title>
-<body style="background-color:#000" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
-<center>
+  
+<style>  
+#video-background {
+  position: fixed;
+  right: 0; 
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  width: auto; 
+  height: auto;
+  z-index: -100;
+}
+	._pattern-overlay { 
+		position: absolute;
+		top: 0;
+    right: 0; 
+		width: 100%;
+		opacity: 0.3;
+		bottom: 0;
+		background-image: url(https://cdnjs.cloudflare.com/ajax/libs/vegas/2.3.1/overlays/06.png);
+		z-index: -1;
+	}
+  .myBackground {
+  background-color: rgba(255,255,255, 0.5);
+    width: 50%;
+    
+  color: inherit;
+  }
+</style>
 
+<body style="background-color:#FFF" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<center>
+  
+  <div class="jumbotron myBackground">
 <h1>ตรวจสอบจำนวนสิทธิ์ Lucky draw คงเหลือ</h1>
 
 <p>กรอกหมายเลขตั๋วเพื่อทำการตรวจสอบจำนวนคงเหลือ</p>
@@ -11,13 +42,34 @@
 <form>
 
 <p id="showData"></p>
-<input type="input" id="ticketValue">
-<input type="button" name="buttonluckydraw" id="buttonluckydraw" value="Check" onclick="s2_but()">
+<input type="input" id="ticketValue" maxlength=7 size=7 placeholder="TPC123">
+<input type="button" name="buttonluckydraw1" id="buttonluckydraw1" value="Check" onclick="s1_but()">
 
 </form>
+<br></br>    
+  
+</div>
+  <div class="jumbotron myBackground">
+  <h1>เพิ่มข้อมูลผู้มีสิทธิ์ Lucky draw</h1>
+    <p>กรอกข้อมูลเพื่อเพิ่มสมาชิกใหม่</p>
+    <form>
+
+<p id="showData2"></p>
+<p>Ticket Number* : TPC<input type="input" id="ticketAdd" maxlength=4 size=4></p>
+<p>Name* : <input type="input" id="nameAdd"></p>
+<p>Lucky Draw : <input type="input" id="nameAdd" maxlength=3 size=3></p>      
+<input type="button" name="buttonluckydraw2" id="buttonluckydraw2" value="OK"  onclick="s2_but()">
+      
+</form>
+    </div>
+  <video autoplay loop id="video-background" muted>
+
+  <source src="http://wolveden.com/checkluckydraw/Smile%20Loop.mp4" type="video/mp4">
+</video>
 <div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;text-align:left;">
 
 </div>
+    <div class="_pattern-overlay"></div>
 <script>
   window.onload = function() { document.body.className = ''; }
   window.ontouchmove = function() { return false; }
@@ -45,17 +97,59 @@
 </script>
 
 <script>
+  
+  
 var showData = document.getElementById("showData");
-var button1 = document.getElementById("buttonluckydraw");
+  var showData2 = document.getElementById("showData2");
+
 var ticketValue = document.getElementById("ticketValue");
 
 var usersRef = 
 firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
 
-function s2_but() {   
-    usersRef.on('value', snap);
+function writeUserData(userId, PlayerName, luckyDraw, ticket) 
+  {
+   usersRef.on((snap)=>{
+    data= snap.val();
+     count =Object.keys(data).length;
+                       })
+  firebase.database().ref('PlayerList/' + userId).set({
+    name: PlayerName,
+    luckyDrawRemaining: luckyDraw,
+    ticketNumber : ticket
+  });
+}
+  
+function s1_but() {   
+    usersRef.equalTo(ticketValue.value).on('value', snap);
 }
 function snap(data) 
+{
+  
+    data2 = data.val();
+   // key = Object.keys(data2)[0];
+    var key="";
+    data.forEach((child)=>key=child.key);
+    console.log(data2); 
+    	 
+
+    if(key)
+    {
+	data3 = data2[key].luckyDrawRemaining;
+    TicketName =  data2[key].name;
+	  console.log(data3);  
+      
+    showData.innerHTML = "Name : "+TicketName+ "<br />" +" Your lucky draw remaining : " +data3; 
+   }
+   else
+   {
+    showData.innerHTML = "Your ticket number was not found in our database"
+   }
+}
+  function s2_but() {   
+    usersRef.on('value', snap2);
+}
+	function snap2(data) 
 {
     data2 = data.val();
     	  console.log(data2); 
@@ -65,15 +159,13 @@ function snap(data)
 	data3 = data2[level1].luckyDrawRemaining;
     TicketName =  data2[level1].name;
 	  console.log(data3);  
-    showData.innerHTML = "Name : "+TicketName+ "<br />" +" Your lucky draw remaining : " +data3; 
+    showData2.innerHTML = "Name : "+TicketName+ "<br />" +" Your lucky draw remaining : " +data3; 
    }
    else
    {
-    showData.innerHTML = "Your ticket number was not found in our database"
+    showData2.innerHTML = "Your ticket number was not found in our database"
    }
 }
-	
 </script>
 </center>
 </body>
-</html>
