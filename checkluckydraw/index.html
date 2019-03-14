@@ -53,12 +53,14 @@
   <div class="jumbotron myBackground">
   <h1>เพิ่มข้อมูลผู้มีสิทธิ์ Lucky draw</h1>
     <p>กรอกข้อมูลเพื่อเพิ่มสมาชิกใหม่</p>
+    
     <form>
 
 <p id="showData2"></p>
 <p style="display:inline">Ticket Number : TPC<p style="display:inline" id="tpcID"></p> </p>
+<p id="showData2"></p>
 <p>Name* : <input type="input" id="nameAdd"></p>
-<p>Lucky Draw : <input type="input" id="nameAdd" maxlength=3 size=3 value=0></p>      
+<p>Lucky Draw : <input type="input" id="luckyDrawAdd" maxlength=3 size=3 value=0></p>      
 <input type="button" name="buttonluckydraw2" id="buttonluckydraw2" value="OK"  onclick="s2_but()">
 </form>
 <br></br>     
@@ -100,12 +102,23 @@
 <script>
   
   document.getElementById("buttonluckydraw2").disabled = true;
+  var userrootRef = firebase.database().ref();
 var showData = document.getElementById("showData");
   var showData2 = document.getElementById("showData2");
 var ticketValue = document.getElementById("ticketValue");
   var tpcNextID;
+  var nameAddValue = document.getElementById("nameAdd");
+  var luckyDrawAddValue = document.getElementById("luckyDrawAdd");
+	
 var usersRef = 
 firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
+
+
+userrootRef.child("PlayerList").on("value",function(snapCountChild){
+ userrootRef.update({"playerCount":snapCountChild.numChildren()});
+console.log(snapCountChild.numChildren());
+});
+
   var playerCountRef ; 
   firebase.database().ref('playerCount/').on('value',function(snapCount){
     playerCountRef =  snapCount.val();
@@ -117,16 +130,33 @@ firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
   
 function writeUserData(userId, PlayerName, luckyDraw, ticket) 
   {
+  var rootRef =  firebase.database().ref("PlayerList");
+ // var newplayersRef = rootRef.child("PlayerList");
+// var newPlayerRef = rootRef.push();
+
+//newPlayerRef.set
+ rootRef.child(userId).set({
+ 
+  name : PlayerName,
+    luckyDrawRemaining : luckyDraw,
+    ticketNumber : ticket
+  
+  });
+  
+nameAddValue.value="";
+luckyDrawAddValue.value="0";
+  /*
     //firebase.database().ref('playerCount').
    usersRef.on((snap)=>{
     data= snap.val();
      count =Object.keys(data).length;
                        })
+                       console.log(count);
   firebase.database().ref('PlayerList/' + userId).set({
     name: PlayerName,
     luckyDrawRemaining: luckyDraw,
     ticketNumber : ticket
-  });
+  });*/
 }
   
 function s1_but() {   
@@ -155,7 +185,17 @@ function snap(data)
    }
 }
   function s2_but() {   
-    usersRef.on('value', snap2);
+    //usersRef.on('value', snap2);
+     
+   if(nameAddValue.value!=""){ writeUserData("0"+tpcNextID,nameAddValue.value,luckyDrawAddValue.value,"TPC"+tpcNextID);
+   showData2.innerHTML = "";
+   
+   }
+   else{
+   
+   showData2.innerHTML = "โปรดใส่ชื่อสมาชิกใหม่ห้ามปล่อยว่าง";
+   
+   }
 }
 	function snap2(data) 
 {
