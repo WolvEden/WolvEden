@@ -120,9 +120,10 @@ console.log(snapCountChild.numChildren());
 });
 
   var playerCountRef ; 
+  var diffplayerCount=43; 
   firebase.database().ref('playerCount/').on('value',function(snapCount){
     playerCountRef =  snapCount.val();
-    tpcNextID = ("000" + (playerCountRef+1).toString()).slice(-3);
+    tpcNextID = ("000" + (playerCountRef+1+diffplayerCount).toString()).slice(-3);
     document.getElementById("tpcID").innerHTML = tpcNextID;
     document.getElementById("buttonluckydraw2").disabled = false;
     
