@@ -50,23 +50,8 @@
 <br></br>    
   
 </div>
-	/*
-  <div class="jumbotron myBackground">
-  <h1>เพิ่มข้อมูลผู้มีสิทธิ์ Lucky draw</h1>
-    <p>กรอกข้อมูลเพื่อเพิ่มสมาชิกใหม่</p>
-    
-    <form>
 
-<p id="showData2"></p>
-<p style="display:inline">Ticket Number : TPC<p style="display:inline" id="tpcID"></p> </p>
-<p id="showData2"></p>
-<p>Name* : <input type="input" id="nameAdd"></p>
-<p>Lucky Draw : <input type="input" id="luckyDrawAdd" maxlength=3 size=3 value=0></p>      
-<input type="button" name="buttonluckydraw2" id="buttonluckydraw2" value="OK"  onclick="s2_but()">
-</form>
-<br></br>     
-    </div>
-	*/
+	
   <video autoplay loop id="video-background" muted>
 
   <source src="http://wolveden.com/checkluckydraw/Smile%20Loop.mp4" type="video/mp4">
@@ -106,11 +91,10 @@
   document.getElementById("buttonluckydraw2").disabled = true;
   var userrootRef = firebase.database().ref();
 var showData = document.getElementById("showData");
-  var showData2 = document.getElementById("showData2");
+ 
 var ticketValue = document.getElementById("ticketValue");
-  var tpcNextID;
-  var nameAddValue = document.getElementById("nameAdd");
-  var luckyDrawAddValue = document.getElementById("luckyDrawAdd");
+  
+
 	
 var usersRef = 
 firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
@@ -128,38 +112,9 @@ console.log(snapCountChild.numChildren());
     document.getElementById("tpcID").innerHTML = tpcNextID;
     document.getElementById("buttonluckydraw2").disabled = false;
     
-  });//.on("value",function(snapCount){return snapCount.key;});
-  
-function writeUserData(userId, PlayerName, luckyDraw, ticket) 
-  {
-  var rootRef =  firebase.database().ref("PlayerList");
- // var newplayersRef = rootRef.child("PlayerList");
-// var newPlayerRef = rootRef.push();
-
-//newPlayerRef.set
- rootRef.child(userId).set({
- 
-  name : PlayerName,
-    luckyDrawRemaining : luckyDraw,
-    ticketNumber : ticket
-  
   });
   
-nameAddValue.value="";
-luckyDrawAddValue.value="0";
-  /*
-    //firebase.database().ref('playerCount').
-   usersRef.on((snap)=>{
-    data= snap.val();
-     count =Object.keys(data).length;
-                       })
-                       console.log(count);
-  firebase.database().ref('PlayerList/' + userId).set({
-    name: PlayerName,
-    luckyDrawRemaining: luckyDraw,
-    ticketNumber : ticket
-  });*/
-}
+
   
 function s1_but() {   
     usersRef.equalTo(ticketValue.value).on('value', snap);
@@ -186,36 +141,7 @@ function snap(data)
     showData.innerHTML = "Your ticket number was not found in our database"
    }
 }
-  function s2_but() {   
-    //usersRef.on('value', snap2);
-     
-   if(nameAddValue.value!=""){ writeUserData("0"+tpcNextID,nameAddValue.value,luckyDrawAddValue.value,"TPC"+tpcNextID);
-   showData2.innerHTML = "";
-   
-   }
-   else{
-   
-   showData2.innerHTML = "โปรดใส่ชื่อสมาชิกใหม่ห้ามปล่อยว่าง";
-   
-   }
-}
-	function snap2(data) 
-{
-    data2 = data.val();
-    	  console.log(data2); 
-	var level1 = ticketValue.value;
-    if(data2[level1])
-    {
-	data3 = data2[level1].luckyDrawRemaining;
-    TicketName =  data2[level1].name;
-	  console.log(data3);  
-    showData2.innerHTML = "Name : "+TicketName+ "<br />" +" Your lucky draw remaining : " +data3; 
-   }
-   else
-   {
-    showData2.innerHTML = "Your ticket number was not found in our database"
-   }
-}
+  
 </script>
 </center>
 </body>
