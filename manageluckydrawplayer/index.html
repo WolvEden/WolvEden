@@ -18,6 +18,7 @@
 		top: 0;
     right: 0; 
 		width: 100%;
+    height: 100%;
 		opacity: 0.3;
 		bottom: 0;
 		background-image: url(https://cdnjs.cloudflare.com/ajax/libs/vegas/2.3.1/overlays/06.png);
@@ -31,12 +32,12 @@
   }
 </style>
 
-//<body style="background-color:#FFF" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<body style="background-color:#FFF" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <body>
 <center>
   
   <div class="jumbotron myBackground">
-<h1>ตรวจสอบจำนวนสิทธิ์ Lucky draw คงเหลือ</h1>
+<h1>ตรวจสอบจำนวนสิทธิ์ Lucky Draw คงเหลือ</h1>
 
 <p>กรอกหมายเลขตั๋วเพื่อทำการตรวจสอบจำนวนคงเหลือ</p>
 
@@ -51,7 +52,7 @@
   
 </div>
   <div class="jumbotron myBackground">
-  <h1>เพิ่มข้อมูลผู้มีสิทธิ์ Lucky draw</h1>
+  <h1>เพิ่มข้อมูลผู้มีสิทธิ์ Lucky Draw</h1>
     <p>กรอกข้อมูลเพื่อเพิ่มสมาชิกใหม่</p>
     
     <form>
@@ -60,11 +61,25 @@
 <p style="display:inline">Ticket Number : TPC<p style="display:inline" id="tpcID"></p> </p>
 <p id="showData2"></p>
 <p>Name* : <input type="input" id="nameAdd"></p>
-<p>Lucky Draw : <input type="input" id="luckyDrawAdd" maxlength=3 size=3 value=0></p>      
+<p>Lucky Draw : <input type="number" min="0" id="luckyDrawAdd" maxlength=3 size=3 value=0></p>      
 <input type="button" name="buttonluckydraw2" id="buttonluckydraw2" value="OK"  onclick="s2_but()">
 </form>
 <br></br>     
     </div>
+  <div class="jumbotron myBackground">
+   <h1>อัพเดทสิทธิ์ Lucky Draw</h1>
+    <p>กรอกหมายเลขตั๋วและใส่จำนวน Lucky Draw ที่ต้องการแก้ไข</p>
+    <p id="showData3"></p>
+  <form>
+
+<p id="showData3"></p>
+<p>Ticket ID : <input type="input" id="ticketID" maxlength=7 size=7 placeholder="TPC123"></p>
+<p>Lucky Draw : <input type="number" min="0" id="luckyDrawUpdate" maxlength=3 size=3 placeholder="0"></p>   
+<input type="button" name="btnUpdateLuckydraw" id="btnUpdateLuckydraw" value="Update" onclick="s3_but()">
+
+</form>
+<br></br>    
+</div>  
   <video autoplay loop id="video-background" muted>
 
   <source src="http://wolveden.com/checkluckydraw/Smile%20Loop.mp4" type="video/mp4">
@@ -72,7 +87,10 @@
 <div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;text-align:left;">
 
 </div>
-    <div class="_pattern-overlay"></div>
+
+
+
+  <div class="_pattern-overlay" ></div>
 <script>
   window.onload = function() { document.body.className = ''; }
   window.ontouchmove = function() { return false; }
@@ -100,41 +118,49 @@
 </script>
 
 <script>
+
+
   
   document.getElementById("buttonluckydraw2").disabled = true;
   var userrootRef = firebase.database().ref();
 var showData = document.getElementById("showData");
   var showData2 = document.getElementById("showData2");
+  var showData3 = document.getElementById("showData3");
 var ticketValue = document.getElementById("ticketValue");
   var tpcNextID;
   var nameAddValue = document.getElementById("nameAdd");
   var luckyDrawAddValue = document.getElementById("luckyDrawAdd");
 	
+  var ticketID = document.getElementById("ticketID");
+  var luckyDrawUpdateValue = document.getElementById("luckyDrawUpdate");
+  
+  
 var usersRef = 
 firebase.database().ref('PlayerList/').orderByChild("ticketNumber");
-
 
 userrootRef.child("PlayerList").on("value",function(snapCountChild){
  userrootRef.update({"playerCount":snapCountChild.numChildren()});
 console.log(snapCountChild.numChildren());
 });
-
   var playerCountRef ; 
   var diffplayerCount=43; 
+  
+  
   firebase.database().ref('playerCount/').on('value',function(snapCount){
     playerCountRef =  snapCount.val();
-    tpcNextID = ("000" + (playerCountRef+1+diffplayerCount).toString()).slice(-3);
+    tpcNextID = ("000" + (playerCountRef+1+ diffplayerCount).toString()).slice(-3);
     document.getElementById("tpcID").innerHTML = tpcNextID;
     document.getElementById("buttonluckydraw2").disabled = false;
     
   });//.on("value",function(snapCount){return snapCount.key;});
-  
+ 
+
+ 
 function writeUserData(userId, PlayerName, luckyDraw, ticket) 
   {
   var rootRef =  firebase.database().ref("PlayerList");
  // var newplayersRef = rootRef.child("PlayerList");
 // var newPlayerRef = rootRef.push();
-
 //newPlayerRef.set
  rootRef.child(userId).set({
  
@@ -215,6 +241,72 @@ function snap(data)
     showData2.innerHTML = "Your ticket number was not found in our database"
    }
 }
+
+function updateUserData(userId, luckyDraw, ticket) 
+  {
+  var rootRef =  firebase.database().ref("PlayerList");
+
+ rootRef.child(userId).set({
+ 
+  name : PlayerName,
+    luckyDrawRemaining : luckyDraw,
+    ticketNumber : ticket
+  
+  });
+  
+nameAddValue.value="";
+luckyDrawAddValue.value="0";
+
+}
+
+function s3_but()
+{
+if(ticketID.value!=""){ 
+
+   showData3.innerHTML = "";
+   usersRef.equalTo(ticketID.value).on('value', snap3);
+   
+   }
+   else{
+   
+   showData3.innerHTML = "โปรดใส่เลขตั๋วก่อนอัพเดทห้ามปล่อยว่าง";
+   
+   }
+   
+		
+}
+function snap3(data)
+{
+data3 = data.val();
+console.log(data3); 
+
+    var key="";
+    data.forEach((child)=>key=child.key);
+   	 
+    if(key)
+    {
+    
+ // console.log(data3[key]);
+   // console.log(data3[key].luckyDrawRemaining);
+   	data4 = data3[key].luckyDrawRemaining;
+    TicketNameUpdate =  data3[key].name; userrootRef.child("PlayerList/"+key).update({"luckyDrawRemaining":luckyDrawUpdateValue.value});
+    
+   
+    
+		data4 = data3[key].luckyDrawRemaining;
+   
+	  console.log(data4);  
+      
+    showData3.innerHTML = " อัพเดทข้อมูลเรียบร้อย"+"<br />" +"Name : "+TicketNameUpdate+ "<br />" +"Lucky draw remaining : " +data4; 
+    ticketID.value ="";
+    luckyDrawUpdateValue.value =0;
+   }
+   else
+   {
+    showData3.innerHTML = "Your ticket number was not found in our database"
+   }
+}
+
 </script>
 </center>
 </body>
