@@ -123,7 +123,7 @@ body{
 
 /* When aspect-ratio is smaller than 4/3*/
 
-/*@media (max-aspect-ratio: 4/3){
+@media (max-aspect-ratio: 4/3){
 	
 	.webgl-content{
 		-webkit-transform: translate(0%, 0%); transform: translate(0%, 0%);
@@ -197,12 +197,12 @@ body{
 		width:calc(100% - 2px);
 		height:auto;
 	}
-}*/
+}
 
 
 /* When aspect-ratio is bigger than 16/9*/
 
-/*@media (min-aspect-ratio: 16/9){
+@media (min-aspect-ratio: 16/9){
 	body{
 		display:flex;
 		flex-wrap:wrap;
@@ -233,4 +233,4 @@ body{
 		border:1px solid #c6c9ca;
 		height:calc(100% - 2px);
 	}
-}*/
+}
