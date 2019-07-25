@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "Mini Game HTML5",
+"productVersion": "0.1",
+"dataUrl": "HTML MiniGame.data.unityweb",
+"wasmCodeUrl": "HTML MiniGame.wasm.code.unityweb",
+"wasmFrameworkUrl": "HTML MiniGame.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.1.11f1"
+}
