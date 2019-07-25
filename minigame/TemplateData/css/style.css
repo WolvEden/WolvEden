@@ -201,7 +201,7 @@ body{
 
 
 /* When aspect-ratio is bigger than 16/9*/
-
+/*
 @media (min-aspect-ratio: 16/9){
 	body{
 		display:flex;
@@ -233,4 +233,4 @@ body{
 		border:1px solid #c6c9ca;
 		height:calc(100% - 2px);
 	}
-}
+}*/
