@@ -1,20 +1,17 @@
 <html>
-  <head>
+	<link rel="icon" type="image/png" href="Logo2.png" />
+	  <head>
     <meta charset="utf-8">
-    <title>Hello, World! - A-Frame</title>
-    <meta name="description" content="Hello, World! - A-Frame">
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-box position="-1.5 0.5 -3.40" rotation="0 0 0" scale=".5 .5 3.4"  color="#4CC3D9"></a-box>
-      <a-box position="1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      
-	  <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4.01" rotation="-90 0 0" width="4.15" height="4.00" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
-	  
-    </a-scene>
-  </body>
+	<title>🐺 WolvEden 🐺</title>
+	  </head>
+	<body style="background-color:#000" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+	<div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;">
+		<img src="Logo2.png" ; />
+	</div>
+		<script>
+			window.onload = function() { document.body.className = ''; }
+			window.ontouchmove = function() { return false; }
+			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+	</body>
 </html>
