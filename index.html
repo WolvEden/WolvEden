@@ -1,13 +1,14 @@
-<!DOCTYPE html>
 <html>
 <link rel="icon" type="image/png" href="Logo2.png" />
-<head>
-<title>🐺 WolvEden 🐺</title>
-</head>
-<body>
+<title>:wolf: WolvEden :wolf:</title>
+<body style="background-color:#000" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;">
 <img src="Logo2.png" ; />
 </div>
-
+<script>
+  window.onload = function() { document.body.className = ''; }
+  window.ontouchmove = function() { return false; }
+  window.onorientationchange = function() { document.body.scrollTop = 0; }
+</script>
 </body>
 </html>
