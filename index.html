@@ -92,14 +92,112 @@
   footer a{text-decoration:none}
   footer a:hover{color:var(--text)}
 
+  /* --- WolvEden motion layer: lightweight CSS + native browser APIs --- */
+  .scroll-progress{
+    position:fixed;inset:0 auto auto 0;width:100%;height:2px;z-index:20;
+    background:var(--grad);transform:scaleX(0);transform-origin:left center;
+    pointer-events:none;box-shadow:0 0 12px rgba(196,49,122,.45)
+  }
+  .hero{overflow:hidden}
+  .hero::before{
+    transform:translate(calc(-50% + var(--glow-x,0px)),calc(-50% + var(--glow-y,0px)));
+    transition:transform .55s ease-out
+  }
+  .shards{
+    opacity:.16;transform:translate3d(var(--shard-x,0px),var(--shard-y,0px),0);
+    transition:transform .65s ease-out
+  }
+  .hero-sparks{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+  .hero-sparks span{
+    position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);
+    border-radius:50%;background:#d9a9ef;opacity:.25;
+    box-shadow:0 0 9px 2px rgba(196,49,122,.22)
+  }
+  .logo-float{display:inline-block;line-height:0}
+  .hero img{
+    transition:transform .3s ease,filter .35s ease;
+    filter:drop-shadow(0 0 0 transparent)
+  }
+  .logo-float:hover img{
+    transform:scale(1.035) rotate(-1deg);
+    filter:drop-shadow(0 0 20px rgba(196,49,122,.38))
+  }
+  .btn,.lang{
+    position:relative;transition:transform .22s ease,border-color .22s ease,
+    box-shadow .22s ease,filter .22s ease
+  }
+  .btn{display:inline-flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate}
+  .btn::after{
+    content:"";position:absolute;inset:-35%;z-index:-1;pointer-events:none;
+    background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.13) 50%,transparent 60%);
+    transform:translateX(-120%) skewX(-15%);transition:transform .65s ease
+  }
+  .btn:hover,.lang:hover{transform:translateY(-2px)}
+  .btn:hover{box-shadow:0 7px 28px rgba(143,47,194,.19)}
+  .btn:hover::after{transform:translateX(120%) skewX(-15deg)}
+  .btn:active,.lang:active{transform:translateY(0) scale(.98)}
+  a:focus-visible,button:focus-visible{outline:2px solid #db89fa;outline-offset:4px}
+  .now{
+    position:relative;overflow:hidden;border:1px solid rgba(196,49,122,.12);
+    transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease
+  }
+  .now::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+    background:radial-gradient(230px circle at var(--card-x,50%) var(--card-y,50%),
+      rgba(196,49,122,.14),transparent 80%);
+    transition:opacity .3s ease
+  }
+  .now:hover{border-color:rgba(196,49,122,.4);box-shadow:0 10px 34px rgba(0,0,0,.12)}
+  .now:hover::before{opacity:1}
+  .now > *{position:relative}
+  .we .we-total{position:relative;isolation:isolate;transition:transform .25s ease}
+  .we .we-total::before{
+    content:"";position:absolute;inset:-6px;z-index:-1;border-radius:999px;
+    background:radial-gradient(ellipse,rgba(196,49,122,.22),transparent 72%);
+    opacity:.5;pointer-events:none
+  }
+  .we .we-total:hover{transform:scale(1.055)}
+  .mail{position:relative;border-bottom:0}
+  .mail::after{
+    content:"";position:absolute;bottom:0;left:0;right:0;height:2px;
+    background:var(--grad);transform:scaleX(.65);
+    transition:transform .35s ease
+  }
+  .mail:hover::after{transform:scaleX(1)}
+  @media (max-width:420px){
+    .we{gap:6px;font-size:14px}
+    .we span{padding:5px 9px}
+    .we .we-total{padding:4px 12px}
+  }
   @media (prefers-reduced-motion:no-preference){
-    .hero img{animation:rise .9s ease-out both}
+    .hero-sparks span{animation:sparkTwinkle var(--duration,5s) ease-in-out var(--delay,0s) infinite alternate}
+    .shards polygon{transform-box:fill-box;transform-origin:center;animation:shardDrift 10s ease-in-out infinite alternate}
+    .shards polygon:nth-child(2n){animation-duration:13s;animation-delay:-4s}
+    .shards polygon:nth-child(3n){animation-duration:16s;animation-delay:-8s}
+    .logo-float{animation:logoFloat 7s ease-in-out infinite}
+    .hero img{animation:logoFade .9s ease-out both}
+    .fx-reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1)}
+    .fx-reveal.is-visible{opacity:1;transform:none}
+    .we .we-total::before{animation:weBreath 4s ease-in-out infinite}
+    @keyframes sparkTwinkle{0%,100%{opacity:.12;transform:scale(.75)}50%{opacity:.64;transform:scale(1.35)}}
+    @keyframes shardDrift{from{transform:translate3d(-6px,5px,0) rotate(-1.5deg)}to{transform:translate3d(8px,-10px,0) rotate(1.5deg)}}
+    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+    @keyframes logoFade{from{opacity:0}to{opacity:1}}
+    @keyframes weBreath{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:.95;transform:scale(1.07)}}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+
+  @media (prefers-reduced-motion:no-preference){
     .hi,.hero p.sub,.links{animation:rise .9s .15s ease-out both}
     @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   }
 </style>
 </head>
 <body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <div class="top"><button class="lang" id="langBtn" type="button" aria-label="Switch language">ไทย</button></div>
 
@@ -115,8 +213,9 @@
       <polygon points="400,700 470,690 440,790 380,800"/>
     </g>
   </svg>
+  <div class="hero-sparks" id="heroSparks" aria-hidden="true"></div>
   <div class="wrap">
-    <img src="https://wolveden.com/Logo2.png" alt="WolvEden Production">
+    <div class="logo-float"><img src="https://wolveden.com/Logo2.png" alt="WolvEden Production"></div>
     <h1 class="hi" data-i18n="hi">Hi, we're <em>W</em>olv<em>E</em>den 🐺</h1>
     <p class="sub" data-i18n="sub">A small team from Thailand making our own games.</p>
 
@@ -196,6 +295,84 @@
   var saved = null;
   try { saved = localStorage.getItem("wdp_lang"); } catch(e) {}
   if (saved === "th") apply("th");
+
+  // Progressive enhancement: effects do not affect content when JS is unavailable.
+  var progress = document.getElementById("scrollProgress");
+  var progressQueued = false;
+  function updateProgress(){
+    progressQueued = false;
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    var value = maxScroll > 0 ? Math.min(1,Math.max(0,window.scrollY / maxScroll)) : 0;
+    progress.style.transform = "scaleX(" + value + ")";
+  }
+  function queueProgress(){
+    if (progressQueued) return;
+    progressQueued = true;
+    requestAnimationFrame(updateProgress);
+  }
+  window.addEventListener("scroll",queueProgress,{passive:true});
+  window.addEventListener("resize",queueProgress,{passive:true});
+  updateProgress();
+
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reducedMotion && "IntersectionObserver" in window){
+    var revealTargets = document.querySelectorAll("section > .wrap");
+    var revealObserver = new IntersectionObserver(function(entries,observer){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },{threshold:.10,rootMargin:"0px 0px -20px 0px"});
+    revealTargets.forEach(function(el){el.classList.add("fx-reveal");revealObserver.observe(el);});
+  }
+
+  // Mouse-only parallax; touch devices keep the static artwork.
+  if (!reducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches){
+    var hero = document.querySelector(".hero");
+    var pendingHero = false;
+    var mouseX = 0,mouseY = 0;
+    hero.addEventListener("pointermove",function(e){
+      var rect = hero.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width - .5) * 2;
+      mouseY = ((e.clientY - rect.top) / rect.height - .5) * 2;
+      if (pendingHero) return;
+      pendingHero = true;
+      requestAnimationFrame(function(){
+        pendingHero = false;
+        hero.style.setProperty("--glow-x",(mouseX*22).toFixed(1)+"px");
+        hero.style.setProperty("--glow-y",(mouseY*18).toFixed(1)+"px");
+        hero.style.setProperty("--shard-x",(mouseX*-12).toFixed(1)+"px");
+        hero.style.setProperty("--shard-y",(mouseY*-9).toFixed(1)+"px");
+      });
+    },{passive:true});
+    hero.addEventListener("pointerleave",function(){
+      ["--glow-x","--glow-y","--shard-x","--shard-y"].forEach(function(k){hero.style.removeProperty(k);});
+    });
+
+    var card = document.querySelector(".now");
+    card.addEventListener("pointermove",function(e){
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty("--card-x",(100*(e.clientX-rect.left)/rect.width).toFixed(1)+"%");
+      card.style.setProperty("--card-y",(100*(e.clientY-rect.top)/rect.height).toFixed(1)+"%");
+    },{passive:true});
+  }
+
+  // Sparse ambient sparks: deterministic placement, no heavy canvas or libraries.
+  if (!reducedMotion){
+    var sparks = document.getElementById("heroSparks");
+    var fragment = document.createDocumentFragment();
+    for (var i=0;i<17;i++){
+      var spark = document.createElement("span");
+      spark.style.setProperty("--x",(6 + (i*47)%88)+"%");
+      spark.style.setProperty("--y",(7 + (i*29)%84)+"%");
+      spark.style.setProperty("--size",(i%4===0?3:2)+"px");
+      spark.style.setProperty("--duration",(3.3+(i%5)*.9)+"s");
+      spark.style.setProperty("--delay",(-i*.73)+"s");
+      fragment.appendChild(spark);
+    }
+    sparks.appendChild(fragment);
+  }
 })();
 </script>
 </body>
