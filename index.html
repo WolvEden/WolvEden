@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap"
       rel="stylesheet"
     >
-    <!-- Standalone: embedded CSS -->
+    <!-- Single-file edition: CSS is embedded for easy deployment. -->
     <style>
 /* ============================================================================
    WolvEden Production — Main stylesheet
@@ -1057,17 +1057,39 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 .easter-star--two { top: 18%; right: 34%; width: 4px; height: 4px; }
 .easter-star--three { top: 27%; left: 30%; width: 3px; height: 3px; }
 
-/* Invisible layout slot; the hero never jumps when the secret starts/ends. */
+/* Reserve a calm, fixed-height row so revealing the secret doesn't move the hero. */
 .easter-caption-slot {
-  display: grid;
+  display: flex;
   position: relative;
-  height: 32px;
-  place-items: center;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 
-/* The message sits directly below the logo, not under the contact CTA. */
+/* Symmetrical columns keep the sentence centered, even with the speaker on. */
+.easter-caption-row {
+  display: grid;
+  width: max-content;
+  max-width: 100%;
+  grid-template-columns: 30px minmax(0, max-content) 30px;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.easter-caption-row::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  width: 30px;
+  height: 30px;
+}
+
+/* The message stays exactly centered below the studio logo. */
 .easter-message {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
   width: 100%;
   margin: 0;
   padding-inline: 8px;
@@ -1092,24 +1114,25 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 /* Keep approximately the original logo-to-heading rhythm. */
 .hero .hero-title { margin-top: 8px; }
 
-/* Small accessible audio toggle beside the right edge of the logo artwork. */
+/* A quiet 30px audio control at the end of the Easter Egg sentence. */
 .wolf-sound-button {
   display: grid;
-  position: absolute;
-  top: 46%;
-  right: -16px;
-  z-index: 3;
-  width: 42px;
-  height: 42px;
+  position: relative;
+  grid-column: 3;
+  grid-row: 1;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
   place-items: center;
-  border: 1px solid rgba(218, 206, 232, .48);
+  border: 1px solid rgba(218, 206, 232, .38);
   border-radius: 50%;
-  background: rgba(30, 28, 37, .93);
-  color: #f3eafb;
-  box-shadow: 0 3px 18px rgba(0, 0, 0, .26);
+  background: rgba(30, 28, 37, .85);
+  color: #d9d1e2;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .18);
   cursor: pointer;
   opacity: 0;
-  transform: translateY(5px) scale(.9);
+  transform: translateY(4px) scale(.94);
   pointer-events: none;
   transition: opacity .28s ease, transform .28s ease, border-color .18s ease;
 }
@@ -1128,7 +1151,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   box-shadow: 0 0 16px rgba(196, 49, 122, .2);
 }
 .wolf-sound-button:disabled { cursor: default; pointer-events: none; }
-.wolf-sound-icon { width: 20px; height: 20px; }
+.wolf-sound-icon { width: 16px; height: 16px; }
 .wolf-sound-icon--on { display: none; }
 .wolf-sound-button[aria-pressed="true"] .wolf-sound-icon--on { display: block; }
 .wolf-sound-button[aria-pressed="true"] .wolf-sound-icon--off { display: none; }
@@ -1378,8 +1401,10 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   .aurora-layer { opacity: .32; }
   .aurora-blob { filter: blur(55px); width: 90vw; }
   .easter-moon { top: calc(42% - 21px); width: 80%; }
-  .wolf-sound-button { right: 0; top: 46%; }
-  .easter-caption-slot { height: 30px; }
+  .easter-caption-row { column-gap: 4px; grid-template-columns: 28px minmax(0, max-content) 28px; }
+  .easter-caption-row::before { width: 28px; height: 28px; }
+  .wolf-sound-button { width: 28px; height: 28px; }
+  .easter-caption-slot { height: 48px; }
   .easter-message { font-size: 12px; }
   .hero-constellation, .paw-trail-layer { display: none; }
 }
@@ -1424,7 +1449,6 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
     animation-play-state: paused;
   }
 }
-
     </style>
   </head>
 
@@ -1516,35 +1540,36 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
               alt="WolvEden Production"
             >
           </button>
-
-          <!-- Appears only during the secret; positioned next to the logo,
-               not beside the primary contact button. -->
-          <button
-            class="wolf-sound-button"
-            id="wolfSoundButton"
-            type="button"
-            aria-pressed="false"
-            aria-label="Howl sound: off"
-            title="Howl sound: off"
-            hidden
-          >
-            <!-- Two icons: CSS selects the appropriate one via aria-pressed. -->
-            <svg class="wolf-sound-icon wolf-sound-icon--off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="m16 9 5 6m0-6-5 6" />
-            </svg>
-            <svg class="wolf-sound-icon wolf-sound-icon--on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
-              <path d="M18.5 5.5a9 9 0 0 1 0 13" />
-            </svg>
-            <span class="visually-hidden" id="wolfSoundLabel">Howl sound: off</span>
-          </button>
         </div>
 
         <!-- Reserved space prevents content from jumping during the reveal. -->
         <div class="easter-caption-slot" id="easterCaption" aria-hidden="true">
-          <p class="easter-message" id="easterMessage">Every dream begins with a pack.</p>
+          <!-- A balanced row keeps the message centered in both languages. -->
+          <div class="easter-caption-row">
+            <p class="easter-message" id="easterMessage">Every dream begins with a pack.</p>
+            <!-- Audio belongs with the Easter Egg caption, not on the logo. -->
+            <button
+              class="wolf-sound-button"
+              id="wolfSoundButton"
+              type="button"
+              aria-pressed="false"
+              aria-label="Howl sound: off"
+              title="Howl sound: off"
+              hidden
+            >
+              <!-- CSS swaps these two icons using aria-pressed. -->
+              <svg class="wolf-sound-icon wolf-sound-icon--off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+              <path d="m16 9 5 6m0-6-5 6" />
+              </svg>
+              <svg class="wolf-sound-icon wolf-sound-icon--on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+              <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+              </svg>
+              <span class="visually-hidden" id="wolfSoundLabel">Howl sound: off</span>
+            </button>
+          </div>
         </div>
 
         <h1 class="hero-title" data-i18n="hi">
@@ -1658,7 +1683,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="8" y="8" width="12" height="12" rx="2"></rect>
                 <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
-              </svg>
+                </svg>
             </button>
           </div>
           <span class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></span>
@@ -1675,7 +1700,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
         <!-- TODO: Add a Privacy Policy link after publishing that page. -->
       </div>
     </footer>
-    <!-- Standalone: embedded JavaScript -->
+    <!-- Single-file edition: scripts are embedded below. -->
     <script>
 /**
  * WolvEden Production — Website behavior
@@ -2181,7 +2206,6 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
   initializeWebsite();
 })();
-
     </script>
     <script>
 /**
@@ -2837,7 +2861,6 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
   initializeV3();
 })();
-
     </script>
   </body>
 </html>
