@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap"
       rel="stylesheet"
     >
-    <!-- Self-contained edition: stylesheets are embedded. -->
+    <!-- Self-contained edition: CSS is embedded. -->
     <style>
 /* ============================================================================
    WolvEden Production — Main stylesheet
@@ -990,9 +990,9 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 .easter-moon {
   position: absolute;
   z-index: 0;
-  top: 46%;
+  top: 42%;
   left: 50%;
-  width: 70%;
+  width: 82%;
   aspect-ratio: 1;
   border: 1px solid rgba(255, 255, 255, 0.88);
   border-radius: 50%;
@@ -1005,15 +1005,21 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
     0 0 32px rgba(255, 255, 255, 0.42),
     0 0 115px 34px rgba(210, 218, 235, 0.16),
     inset -15px -18px 28px rgba(123, 132, 150, 0.24);
-  transform: translate(-50%, -50%) scale(0.65);
+  transform: translate(-50%, -50%) scale(0.3);
   opacity: 0;
   pointer-events: none;
+  /* Keep the transitions on the base state to animate BOTH reveal and exit. */
+  transition:
+    transform 1.05s cubic-bezier(.36, .02, .28, 1),
+    opacity 0.88s ease-in;
 }
 
 .hero-logo-stage.is-awake .easter-moon {
   opacity: 0.94;
   transform: translate(-50%, -50%) scale(1);
-  transition: transform 1.1s cubic-bezier(.2,.8,.2,1), opacity 1s ease;
+  transition:
+    transform 1.1s cubic-bezier(.2, .8, .2, 1),
+    opacity 1s ease;
 }
 
 .easter-star {
@@ -1313,7 +1319,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 @media (max-width: 600px) {
   .aurora-layer { opacity: .32; }
   .aurora-blob { filter: blur(55px); width: 90vw; }
-  .easter-moon { top: 46%; width: 70%; }
+  .easter-moon { top: 42%; width: 82%; }
   .easter-message { bottom: 8%; }
   .hero-constellation, .paw-trail-layer { display: none; }
 }
@@ -1326,6 +1332,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 @media (prefers-reduced-motion: reduce) {
   .aurora-blob { filter: blur(65px); }
   .paw-trail-layer, .hero-constellation { display: none; }
+  .easter-moon, .moon-easter-egg { transition: none !important; }
   .hero-logo-stage.is-awake .easter-moon { transform: translate(-50%, -50%); }
   .moon-easter-egg.is-awake .easter-message { opacity: 1; }
   .section h2::before { transform: none; }
@@ -1333,13 +1340,30 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   .fx-click-ripple { display: none; }
 }
 
-/* Animate the artwork, not the clickable button's hit target. */
+/*
+ * Keep the moon and logo in sync: float their shared stage, not just the logo
+ * image. The button remains clickable, and reduced-motion users see no float.
+ */
 @media (prefers-reduced-motion: no-preference) {
-  .wolf-logo-trigger { animation: none; }
-  .wolf-logo-trigger img { animation: logoFloat 7s ease-in-out infinite; }
-  .wolf-logo-trigger:hover img,
-  .wolf-logo-trigger:focus-visible img { animation-play-state: paused; }
+  .hero-logo-stage {
+    animation: logoFloat 7s ease-in-out infinite;
+  }
+
+  /* Override the previous independent logo float animation. */
+  .hero-logo-stage .wolf-logo-trigger {
+    animation: none;
+  }
+
+  .hero-logo-stage .wolf-logo-trigger img {
+    animation: logoFade 0.9s ease-out both;
+  }
+
+  .hero-logo-stage:hover,
+  .hero-logo-stage:focus-within {
+    animation-play-state: paused;
+  }
 }
+
     </style>
   </head>
 
@@ -1572,7 +1596,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
         <!-- TODO: Add a Privacy Policy link after publishing that page. -->
       </div>
     </footer>
-    <!-- Self-contained edition: scripts are embedded. -->
+    <!-- Self-contained edition: JavaScript is embedded. -->
     <script>
 /**
  * WolvEden Production — Website behavior
@@ -2078,6 +2102,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
   initializeWebsite();
 })();
+
     </script>
     <script>
 /**
@@ -2104,8 +2129,11 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   const PAW_MIN_DISTANCE_PX = 68;
   const PAW_MAX_ON_SCREEN = 8;
   const EASTER_ACTIVATIONS = 3;
-  // Keep the moon visible for the full 9.9-second recorded howl.
-  const EASTER_DISPLAY_MS = 13000;
+  // Only the audio's `ended` event closes an audible reveal.
+  // In silent mode, a shorter timer provides a visual-only Easter egg.
+  const EASTER_SILENT_DURATION_MS = 6000;
+  const EASTER_EXIT_DURATION_MS = 1100;
+  const EASTER_AUDIO_WATCHDOG_MS = 30000;
 
   const labels = {
     en: {
@@ -2251,7 +2279,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   }
 
   // -------------------------------------------------------------------------
-  // 3. Wolf Howl Easter egg — moon appears after three logo activations
+  // 3. Wolf Howl Easter egg — one reveal and one howl at a time
   // -------------------------------------------------------------------------
   function initializeWolfEasterEgg() {
     const trigger = document.getElementById("wolfLogoTrigger");
@@ -2264,12 +2292,20 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
     const howlAudio = document.getElementById("wolfHowlAudio");
     if (!trigger || !moon || !logoStage || !message || !soundButton || !soundLabel || !status || !howlAudio) return;
 
+    // A simple state machine avoids overlapping playback and stale timers:
+    // idle -> showing -> closing -> idle.
+    let phase = "idle";
     let activations = 0;
     let lastActivation = 0;
     let unlocked = false;
     let soundEnabled = false;
-    let hideTimer = null;
+    let silentTimer = null;
+    let closingTimer = null;
+    let audioWatchdog = null;
+    let playbackRequestId = 0;
+
     howlAudio.volume = 0.7;
+    howlAudio.loop = false;
 
     function applyLocalizedLabels() {
       const dictionary = currentLabels();
@@ -2279,51 +2315,119 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
       soundButton.setAttribute("aria-label", soundLabel.textContent);
     }
 
-    // Play the user's actual wolf howl recording (compressed for the web).
-    // Audio remains disabled until the visitor presses the sound button.
-    function playHowl() {
-      if (!soundEnabled) return;
-      howlAudio.pause();
-      howlAudio.currentTime = 0;
-      const playAttempt = howlAudio.play();
-      playAttempt?.catch(() => {
-        // The secret remains visual-only if the browser blocks playback.
-      });
+    function clearSequenceTimers() {
+      clearTimeout(silentTimer);
+      clearTimeout(closingTimer);
+      clearTimeout(audioWatchdog);
+      silentTimer = null;
+      closingTimer = null;
+      audioWatchdog = null;
     }
 
-    function showEasterEgg() {
+    function stopHowl() {
+      playbackRequestId++;
+      howlAudio.pause();
+      try { howlAudio.currentTime = 0; } catch (error) {
+        // A not-yet-loaded or inaccessible media source may reject seeking.
+      }
+    }
+
+    function finishEasterEgg() {
+      if (phase !== "showing") return;
+      phase = "closing";
+      playbackRequestId++;
+      clearSequenceTimers();
+
+      // Removing the active class SHRINKS the moon and fades it out.
+      // The CSS transition is on the base element, so it runs on exit too.
       moon.classList.remove("is-awake");
       logoStage.classList.remove("is-awake");
-      // Restart the short reveal animation on subsequent activations.
-      void moon.offsetWidth;
+      status.textContent = "";
+
+      // Ignore further logo taps until the contraction has finished.
+      closingTimer = setTimeout(() => {
+        if (phase === "closing") phase = "idle";
+        closingTimer = null;
+      }, prefersReducedMotion() ? 0 : EASTER_EXIT_DURATION_MS);
+    }
+
+    function showWithoutAudio() {
+      clearTimeout(silentTimer);
+      silentTimer = setTimeout(finishEasterEgg, EASTER_SILENT_DURATION_MS);
+    }
+
+    function startHowl() {
+      if (phase !== "showing" || !soundEnabled) return;
+      clearTimeout(silentTimer);
+      clearTimeout(audioWatchdog);
+      silentTimer = null;
+      const requestId = ++playbackRequestId;
+
+      // `play()` can fail on restricted browsers, or hang on broken media.
+      // Fall back to a finite silent reveal rather than leaving a stuck moon.
+      audioWatchdog = setTimeout(() => {
+        if (phase !== "showing" || requestId !== playbackRequestId) return;
+        stopHowl();
+        finishEasterEgg();
+      }, EASTER_AUDIO_WATCHDOG_MS);
+
+      try {
+        howlAudio.currentTime = 0;
+        const playRequest = howlAudio.play();
+        if (playRequest && typeof playRequest.catch === "function") {
+          playRequest.catch(() => {
+            if (phase !== "showing" || !soundEnabled || requestId !== playbackRequestId) return;
+            clearTimeout(audioWatchdog);
+            audioWatchdog = null;
+            showWithoutAudio();
+          });
+        }
+      } catch (error) {
+        if (phase !== "showing" || requestId !== playbackRequestId) return;
+        clearTimeout(audioWatchdog);
+        audioWatchdog = null;
+        showWithoutAudio();
+      }
+    }
+
+    function revealEasterEgg() {
+      // While the howl plays or the moon contracts, repeated clicks do nothing.
+      if (phase !== "idle") return;
+      clearSequenceTimers();
+      phase = "showing";
       moon.classList.add("is-awake");
       logoStage.classList.add("is-awake");
       soundButton.hidden = false;
       status.textContent = currentLabels().secretAnnouncement;
 
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => {
-        moon.classList.remove("is-awake");
-        logoStage.classList.remove("is-awake");
-        status.textContent = "";
-      }, EASTER_DISPLAY_MS);
-
-      if (soundEnabled) playHowl();
+      if (soundEnabled) startHowl();
+      else showWithoutAudio();
     }
 
+    // Rely on the recording ending, not a guessed 13-second timeout.
+    howlAudio.addEventListener("ended", () => {
+      if (phase === "showing") finishEasterEgg();
+    });
+    howlAudio.addEventListener("error", () => {
+      if (phase !== "showing" || !soundEnabled) return;
+      clearTimeout(audioWatchdog);
+      audioWatchdog = null;
+      showWithoutAudio();
+    });
+
     trigger.addEventListener("click", () => {
+      if (phase !== "idle") return;
       if (unlocked) {
-        showEasterEgg();
+        revealEasterEgg();
         return;
       }
 
       const now = Date.now();
       activations = now - lastActivation > 2700 ? 1 : activations + 1;
       lastActivation = now;
-
       if (activations >= EASTER_ACTIVATIONS) {
         unlocked = true;
-        showEasterEgg();
+        revealEasterEgg();
       }
     });
 
@@ -2331,13 +2435,18 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
       soundEnabled = !soundEnabled;
       soundButton.setAttribute("aria-pressed", String(soundEnabled));
       applyLocalizedLabels();
-      if (soundEnabled) {
-        // Extend the reveal so the moon remains visible during playback.
-        showEasterEgg();
-      } else {
-        howlAudio.pause();
-        howlAudio.currentTime = 0;
+
+      if (!soundEnabled) {
+        // Turning the sound off mid-howl immediately stops playback and
+        // begins the normal closing animation. No phantom `ended` event.
+        stopHowl();
+        if (phase === "showing") finishEasterEgg();
+      } else if (phase === "showing") {
+        // The visitor explicitly enabled sound during a silent reveal.
+        // Start the howl once and wait for the real `ended` event.
+        startHowl();
       }
+      // When idle, ON merely arms audio for the next logo activation.
     });
 
     document.addEventListener("wolveden:languagechange", applyLocalizedLabels);
@@ -2632,6 +2741,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
   initializeV3();
 })();
+
     </script>
   </body>
 </html>
