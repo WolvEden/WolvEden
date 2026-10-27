@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap"
       rel="stylesheet"
     >
-    <!-- Single-file edition: CSS is embedded for easy deployment. -->
+    <!-- Self-contained edition: stylesheets are embedded. -->
     <style>
 /* ============================================================================
    WolvEden Production — Main stylesheet
@@ -974,11 +974,25 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
 .moon-easter-egg.is-awake { opacity: 1; }
 
+/* The lunar disc is anchored to the logo image, not the hero viewport. */
+.hero-logo-stage {
+  display: inline-grid;
+  position: relative;
+  place-items: center;
+  isolation: isolate;
+  vertical-align: top;
+}
+
+.hero-logo-stage .wolf-logo-trigger {
+  z-index: 1;
+}
+
 .easter-moon {
   position: absolute;
-  top: clamp(52px, 10.5vh, 108px);
+  z-index: 0;
+  top: 46%;
   left: 50%;
-  width: clamp(148px, 19vw, 230px);
+  width: 70%;
   aspect-ratio: 1;
   border: 1px solid rgba(255, 255, 255, 0.88);
   border-radius: 50%;
@@ -991,13 +1005,14 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
     0 0 32px rgba(255, 255, 255, 0.42),
     0 0 115px 34px rgba(210, 218, 235, 0.16),
     inset -15px -18px 28px rgba(123, 132, 150, 0.24);
-  transform: translateX(-50%) scale(0.65);
+  transform: translate(-50%, -50%) scale(0.65);
   opacity: 0;
+  pointer-events: none;
 }
 
-.moon-easter-egg.is-awake .easter-moon {
+.hero-logo-stage.is-awake .easter-moon {
   opacity: 0.94;
-  transform: translateX(-50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
   transition: transform 1.1s cubic-bezier(.2,.8,.2,1), opacity 1s ease;
 }
 
@@ -1298,7 +1313,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 @media (max-width: 600px) {
   .aurora-layer { opacity: .32; }
   .aurora-blob { filter: blur(55px); width: 90vw; }
-  .easter-moon { top: 78px; left: 50%; width: 132px; }
+  .easter-moon { top: 46%; width: 70%; }
   .easter-message { bottom: 8%; }
   .hero-constellation, .paw-trail-layer { display: none; }
 }
@@ -1311,7 +1326,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 @media (prefers-reduced-motion: reduce) {
   .aurora-blob { filter: blur(65px); }
   .paw-trail-layer, .hero-constellation { display: none; }
-  .moon-easter-egg.is-awake .easter-moon { transform: translateX(-50%); }
+  .hero-logo-stage.is-awake .easter-moon { transform: translate(-50%, -50%); }
   .moon-easter-egg.is-awake .easter-message { opacity: 1; }
   .section h2::before { transform: none; }
   .section h2::after { display: none; }
@@ -1388,7 +1403,6 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
       <!-- Hidden moon and message: unlocked by tapping the logo three times. -->
       <div class="moon-easter-egg" id="moonEasterEgg" aria-hidden="true">
-        <div class="easter-moon"></div>
         <span class="easter-star easter-star--one"></span>
         <span class="easter-star easter-star--two"></span>
         <span class="easter-star easter-star--three"></span>
@@ -1399,18 +1413,26 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
       <div class="hero-sparks" id="heroSparks" aria-hidden="true"></div>
 
       <div class="wrap">
-        <!-- The logo is a keyboard-accessible Easter egg trigger. -->
-        <button
-          class="hero-logo wolf-logo-trigger"
-          id="wolfLogoTrigger"
-          type="button"
-          aria-label="WolvEden logo"
-        >
-          <img
-            src="https://wolveden.com/Logo2.png"
-            alt="WolvEden Production"
+        <!--
+          Moon and logo share one layout frame, so their alignment remains
+          correct on desktop, mobile, and when the viewport changes size.
+        -->
+        <div class="hero-logo-stage" id="heroLogoStage">
+          <div class="easter-moon" aria-hidden="true"></div>
+
+          <!-- The logo is a keyboard-accessible Easter egg trigger. -->
+          <button
+            class="hero-logo wolf-logo-trigger"
+            id="wolfLogoTrigger"
+            type="button"
+            aria-label="WolvEden logo"
           >
-        </button>
+            <img
+              src="https://wolveden.com/Logo2.png"
+              alt="WolvEden Production"
+            >
+          </button>
+        </div>
 
         <h1 class="hero-title" data-i18n="hi">
           Hi, we're <em>W</em>olv<em>E</em>den 🐺
@@ -1550,7 +1572,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
         <!-- TODO: Add a Privacy Policy link after publishing that page. -->
       </div>
     </footer>
-    <!-- Single-file edition: the scripts are embedded below. -->
+    <!-- Self-contained edition: scripts are embedded. -->
     <script>
 /**
  * WolvEden Production — Website behavior
@@ -2234,12 +2256,13 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   function initializeWolfEasterEgg() {
     const trigger = document.getElementById("wolfLogoTrigger");
     const moon = document.getElementById("moonEasterEgg");
+    const logoStage = document.getElementById("heroLogoStage");
     const message = document.getElementById("easterMessage");
     const soundButton = document.getElementById("wolfSoundButton");
     const soundLabel = document.getElementById("wolfSoundLabel");
     const status = document.getElementById("wolfSecretStatus");
     const howlAudio = document.getElementById("wolfHowlAudio");
-    if (!trigger || !moon || !message || !soundButton || !soundLabel || !status || !howlAudio) return;
+    if (!trigger || !moon || !logoStage || !message || !soundButton || !soundLabel || !status || !howlAudio) return;
 
     let activations = 0;
     let lastActivation = 0;
@@ -2270,15 +2293,18 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
     function showEasterEgg() {
       moon.classList.remove("is-awake");
+      logoStage.classList.remove("is-awake");
       // Restart the short reveal animation on subsequent activations.
       void moon.offsetWidth;
       moon.classList.add("is-awake");
+      logoStage.classList.add("is-awake");
       soundButton.hidden = false;
       status.textContent = currentLabels().secretAnnouncement;
 
       clearTimeout(hideTimer);
       hideTimer = setTimeout(() => {
         moon.classList.remove("is-awake");
+        logoStage.classList.remove("is-awake");
         status.textContent = "";
       }, EASTER_DISPLAY_MS);
 
