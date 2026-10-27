@@ -1,379 +1,2643 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WolvEden Production 🐺</title>
-<meta name="description" content="WolvEden Production — a small team from Thailand making our own games.">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="WolvEden Production — a small team from Thailand making our own games."
+    >
+    <title>WolvEden Production 🐺</title>
 
-<link rel="icon" type="image/png" href="Logo2.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#1c1d21;
-    --surface:#25262c;
-    --line:#34353d;
-    --text:#f3f1f6;
-    --muted:#a8a2b2;
-    --purple:#8f2fc2;
-    --magenta:#c4317a;
-    --red:#e0303f;
-    --grad:linear-gradient(135deg,var(--purple),var(--magenta));
-    --head:"Chakra Petch",system-ui,sans-serif;
-    --body:"IBM Plex Sans Thai",system-ui,sans-serif;
-    --max:760px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font:400 17px/1.7 var(--body);overflow-x:hidden}
-  html[lang="th"] body{line-height:1.85}
-  a{color:inherit}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    <link rel="icon" type="image/png" href="Logo2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap"
+      rel="stylesheet"
+    >
+    <!-- Single-file edition: all styles are embedded below. -->
+    <style>
+/* ============================================================================
+   WolvEden Production — Main stylesheet
+   ============================================================================
+   01. Design tokens and base styles
+   02. Navigation and buttons
+   03. Hero and decorative elements
+   04. Content sections
+   05. About / Now / Contact
+   06. Footer and scroll progress
+   07. Responsive layout
+   08. New interactive effects
+   09. Animation and reduced motion
+   ============================================================================ */
 
-  /* Top bar: แค่ปุ่มเปลี่ยนภาษา */
-  .top{position:absolute;top:16px;right:16px;z-index:5}
-  .lang{font:700 13px var(--head);letter-spacing:.06em;color:var(--text);background:rgba(37,38,44,.8);border:1px solid var(--line);
-    padding:7px 14px;border-radius:999px;cursor:pointer}
-  .lang:hover{border-color:var(--magenta)}
+/* --------------------------------------------------------------------------
+   01. Design tokens and base styles
+   -------------------------------------------------------------------------- */
+:root {
+  --bg: #1c1d21;
+  --surface: #25262c;
+  --line: #34353d;
+  --text: #f3f1f6;
+  --muted: #a8a2b2;
 
-  /* Hero */
-  .hero{position:relative;min-height:92svh;display:grid;place-items:center;text-align:center;padding:72px 0 56px;isolation:isolate}
-  .shards{position:absolute;inset:0;z-index:-1;width:100%;height:100%;opacity:.12;pointer-events:none}
-  .hero::before{content:"";position:absolute;z-index:-1;width:min(520px,90vw);aspect-ratio:1;border-radius:50%;
-    background:radial-gradient(circle,rgba(196,49,122,.26),rgba(143,47,194,.1) 45%,transparent 70%);left:50%;top:42%;transform:translate(-50%,-50%)}
-  .hero img{width:min(340px,74vw);height:auto;display:block;margin:0 auto}
-  .hi{margin-top:22px;font:700 clamp(26px,6.4vw,36px)/1.25 var(--head)}
-  .hi em{font-style:normal;font-size:1.45em;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 0 10px rgba(196,49,122,.5));padding:0 .02em}
-  .hero p.sub{margin:8px auto 0;max-width:34ch;color:var(--muted);font-size:18px}
+  --purple: #8f2fc2;
+  --magenta: #c4317a;
+  --red: #e0303f;
+  --gradient: linear-gradient(135deg, var(--purple), var(--magenta));
 
-  /* ปุ่มลิงก์ (เพิ่มในอนาคต) */
-  .links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-  .btn{font:700 15px var(--head);letter-spacing:.03em;text-decoration:none;padding:11px 22px;border-radius:999px}
-  .btn.primary{background:var(--grad);color:#fff}
-  .btn.ghost{background:var(--surface);border:1px solid var(--line)}
-  .btn:hover{filter:brightness(1.12)}
+  --font-heading: "Chakra Petch", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans Thai", system-ui, sans-serif;
+  --content-width: 760px;
+}
 
-  /* Sections */
-  section{padding:64px 0;border-top:1px solid var(--line)}
-  h2{font:700 clamp(24px,5.4vw,30px)/1.3 var(--head);margin-bottom:14px}
-  section p{color:var(--muted)}
-  section p+p{margin-top:12px}
-  section p b{color:var(--text);font-weight:500}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  .we{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font:700 18px var(--head)}
-  .we span{background:var(--surface);border:1px solid var(--line);padding:6px 14px;border-radius:999px}
-  .we i{font-style:normal;color:var(--muted)}
-  .we em,section p b em{font-style:normal;font-size:1.3em;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .we .we-total{font-size:1.5em;padding:4px 18px;border-color:var(--magenta);box-shadow:0 0 18px rgba(196,49,122,.35)}
-  section p b.wegrad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700;font-size:1.15em}
+* {
+  margin: 0;
+  padding: 0;
+}
 
-  .cares{display:grid;gap:12px;margin-top:22px}
-  @media (min-width:640px){.cares{grid-template-columns:1fr 1fr}}
-  .care{background:var(--surface);border-radius:14px;padding:18px 20px}
-  .care b{display:block;font:700 17px var(--head);margin-bottom:4px}
-  .care b::first-letter{color:var(--magenta)}
-  .care p{font-size:15.5px}
+html {
+  scroll-behavior: smooth;
+}
 
-  .now{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border-radius:14px;padding:20px}
-  .dot{flex:none;width:12px;height:12px;margin-top:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 6px rgba(224,48,63,.15)}
-  @media (prefers-reduced-motion:no-preference){.dot{animation:pulse 2s ease-in-out infinite}
-    @keyframes pulse{50%{box-shadow:0 0 0 10px rgba(224,48,63,.05)}}}
+body {
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 17px / 1.7 var(--font-body);
+}
 
-  .contact{text-align:center}
-  .mail{display:inline-block;margin-top:14px;font:700 clamp(20px,5.4vw,26px) var(--head);text-decoration:none;
-    padding-bottom:3px;border-bottom:2px solid var(--magenta);word-break:break-all}
-  .mail:hover{color:#fff;border-color:var(--purple)}
+html[lang="th"] body {
+  line-height: 1.85;
+}
 
-  footer{border-top:1px solid var(--line);padding:24px 0 32px;font-size:13px;color:var(--muted);text-align:center}
-  footer a{text-decoration:none}
-  footer a:hover{color:var(--text)}
+a {
+  color: inherit;
+}
 
-  /* --- WolvEden motion layer: lightweight CSS + native browser APIs --- */
-  .scroll-progress{
-    position:fixed;inset:0 auto auto 0;width:100%;height:2px;z-index:20;
-    background:var(--grad);transform:scaleX(0);transform-origin:left center;
-    pointer-events:none;box-shadow:0 0 12px rgba(196,49,122,.45)
-  }
-  .hero{overflow:hidden}
-  .hero::before{
-    transform:translate(calc(-50% + var(--glow-x,0px)),calc(-50% + var(--glow-y,0px)));
-    transition:transform .55s ease-out
-  }
-  .shards{
-    opacity:.16;transform:translate3d(var(--shard-x,0px),var(--shard-y,0px),0);
-    transition:transform .65s ease-out
-  }
-  .hero-sparks{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-  .hero-sparks span{
-    position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);
-    border-radius:50%;background:#d9a9ef;opacity:.25;
-    box-shadow:0 0 9px 2px rgba(196,49,122,.22)
-  }
-  .logo-float{display:inline-block;line-height:0}
-  .hero img{
-    transition:transform .3s ease,filter .35s ease;
-    filter:drop-shadow(0 0 0 transparent)
-  }
-  .logo-float:hover img{
-    transform:scale(1.035) rotate(-1deg);
-    filter:drop-shadow(0 0 20px rgba(196,49,122,.38))
-  }
-  .btn,.lang{
-    position:relative;transition:transform .22s ease,border-color .22s ease,
-    box-shadow .22s ease,filter .22s ease
-  }
-  .btn{display:inline-flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate}
-  .btn::after{
-    content:"";position:absolute;inset:-35%;z-index:-1;pointer-events:none;
-    background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.13) 50%,transparent 60%);
-    transform:translateX(-120%) skewX(-15%);transition:transform .65s ease
-  }
-  .btn:hover,.lang:hover{transform:translateY(-2px)}
-  .btn:hover{box-shadow:0 7px 28px rgba(143,47,194,.19)}
-  .btn:hover::after{transform:translateX(120%) skewX(-15deg)}
-  .btn:active,.lang:active{transform:translateY(0) scale(.98)}
-  a:focus-visible,button:focus-visible{outline:2px solid #db89fa;outline-offset:4px}
-  .now{
-    position:relative;overflow:hidden;border:1px solid rgba(196,49,122,.12);
-    transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease
-  }
-  .now::before{
-    content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
-    background:radial-gradient(230px circle at var(--card-x,50%) var(--card-y,50%),
-      rgba(196,49,122,.14),transparent 80%);
-    transition:opacity .3s ease
-  }
-  .now:hover{border-color:rgba(196,49,122,.4);box-shadow:0 10px 34px rgba(0,0,0,.12)}
-  .now:hover::before{opacity:1}
-  .now > *{position:relative}
-  .we .we-total{position:relative;isolation:isolate;transition:transform .25s ease}
-  .we .we-total::before{
-    content:"";position:absolute;inset:-6px;z-index:-1;border-radius:999px;
-    background:radial-gradient(ellipse,rgba(196,49,122,.22),transparent 72%);
-    opacity:.5;pointer-events:none
-  }
-  .we .we-total:hover{transform:scale(1.055)}
-  .mail{position:relative;border-bottom:0}
-  .mail::after{
-    content:"";position:absolute;bottom:0;left:0;right:0;height:2px;
-    background:var(--grad);transform:scaleX(.65);
-    transition:transform .35s ease
-  }
-  .mail:hover::after{transform:scaleX(1)}
-  @media (max-width:420px){
-    .we{gap:6px;font-size:14px}
-    .we span{padding:5px 9px}
-    .we .we-total{padding:4px 12px}
-  }
-  @media (prefers-reduced-motion:no-preference){
-    .hero-sparks span{animation:sparkTwinkle var(--duration,5s) ease-in-out var(--delay,0s) infinite alternate}
-    .shards polygon{transform-box:fill-box;transform-origin:center;animation:shardDrift 10s ease-in-out infinite alternate}
-    .shards polygon:nth-child(2n){animation-duration:13s;animation-delay:-4s}
-    .shards polygon:nth-child(3n){animation-duration:16s;animation-delay:-8s}
-    .logo-float{animation:logoFloat 7s ease-in-out infinite}
-    .hero img{animation:logoFade .9s ease-out both}
-    .fx-reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1)}
-    .fx-reveal.is-visible{opacity:1;transform:none}
-    .we .we-total::before{animation:weBreath 4s ease-in-out infinite}
-    @keyframes sparkTwinkle{0%,100%{opacity:.12;transform:scale(.75)}50%{opacity:.64;transform:scale(1.35)}}
-    @keyframes shardDrift{from{transform:translate3d(-6px,5px,0) rotate(-1.5deg)}to{transform:translate3d(8px,-10px,0) rotate(1.5deg)}}
-    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-    @keyframes logoFade{from{opacity:0}to{opacity:1}}
-    @keyframes weBreath{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:.95;transform:scale(1.07)}}
-  }
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation:none!important;transition:none!important}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #db89fa;
+  outline-offset: 4px;
+}
+
+.wrap {
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.gradient-text {
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   02. Navigation and buttons
+   -------------------------------------------------------------------------- */
+.top {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+}
+
+.language-button {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(37, 38, 44, 0.8);
+  color: var(--text);
+  font: 700 13px var(--font-heading);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.language-button:hover {
+  border-color: var(--magenta);
+}
+
+.hero-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.button {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font: 700 15px var(--font-heading);
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.button--primary {
+  background: var(--gradient);
+  color: #fff;
+}
+
+.button--ghost {
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.button:hover {
+  filter: brightness(1.12);
+}
+
+/* Shared interactive transitions. */
+.button,
+.language-button {
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    filter 0.22s ease;
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.13) 50%,
+    transparent 60%
+  );
+  transform: translateX(-120%) skewX(-15deg);
+  transition: transform 0.65s ease;
+}
+
+.button:hover,
+.language-button:hover {
+  transform: translateY(-2px);
+}
+
+.button:hover {
+  box-shadow: 0 7px 28px rgba(143, 47, 194, 0.19);
+}
+
+.button:hover::after {
+  transform: translateX(120%) skewX(-15deg);
+}
+
+.button:active,
+.language-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* --------------------------------------------------------------------------
+   03. Hero and decorative elements
+   -------------------------------------------------------------------------- */
+.hero {
+  display: grid;
+  position: relative;
+  min-height: 92svh;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding-block: 72px 56px;
+  text-align: center;
+}
+
+/* The radial glow shifts slightly with mouse movement on desktop. */
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 42%;
+  left: 50%;
+  width: min(520px, 90vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(196, 49, 122, 0.26),
+    rgba(143, 47, 194, 0.1) 45%,
+    transparent 70%
+  );
+  transform: translate(
+    calc(-50% + var(--glow-x, 0px)),
+    calc(-50% + var(--glow-y, 0px))
+  );
+  transition: transform 0.55s ease-out;
+}
+
+.hero-shards {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0.16;
+  pointer-events: none;
+  transform: translate3d(
+    var(--shard-x, 0px),
+    var(--shard-y, 0px),
+    0
+  );
+  transition: transform 0.65s ease-out;
+}
+
+/* Polygon drift belongs to the child; cursor repulsion belongs to the group. */
+.hero-shard {
+  transform: translate3d(var(--repel-x, 0px), var(--repel-y, 0px), 0)
+    rotate(var(--repel-rotation, 0deg));
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.44s cubic-bezier(0.18, 0.8, 0.3, 1.1);
+}
+
+.hero-shard polygon {
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.hero-shard.is-near polygon {
+  opacity: 1;
+  filter: brightness(1.7) drop-shadow(0 0 10px rgba(196, 49, 122, 0.8));
+}
+
+.hero-sparks {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-sparks span {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #d9a9ef;
+  opacity: 0.25;
+  box-shadow: 0 0 9px 2px rgba(196, 49, 122, 0.22);
+}
+
+.hero-logo {
+  display: inline-block;
+  line-height: 0;
+}
+
+.hero-logo img {
+  display: block;
+  width: min(340px, 74vw);
+  height: auto;
+  margin-inline: auto;
+  filter: drop-shadow(0 0 0 transparent);
+  transition: transform 0.3s ease, filter 0.35s ease;
+}
+
+.hero-logo:hover img {
+  transform: scale(1.035) rotate(-1deg);
+  filter: drop-shadow(0 0 20px rgba(196, 49, 122, 0.38));
+}
+
+.hero-title {
+  margin-top: 22px;
+  font: 700 clamp(26px, 6.4vw, 36px) / 1.25 var(--font-heading);
+}
+
+.hero-title em {
+  padding-inline: 0.02em;
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 1.45em;
+  font-style: normal;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(196, 49, 122, 0.5));
+}
+
+.hero-subtitle {
+  max-width: 34ch;
+  margin: 8px auto 0;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   04. Content sections
+   -------------------------------------------------------------------------- */
+.section {
+  padding-block: 64px;
+  border-top: 1px solid var(--line);
+}
+
+.section h2 {
+  margin-bottom: 14px;
+  font: 700 clamp(24px, 5.4vw, 30px) / 1.3 var(--font-heading);
+}
+
+.section p {
+  color: var(--muted);
+}
+
+.section p + p {
+  margin-top: 12px;
+}
+
+.section p b {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.section p b em {
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 1.3em;
+  font-style: normal;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   05. About / Now / Contact
+   -------------------------------------------------------------------------- */
+/* About: Wolve + Eden = WE */
+.brand-formula {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  font: 700 18px var(--font-heading);
+}
+
+.brand-formula > span {
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.brand-formula i {
+  color: var(--muted);
+  font-style: normal;
+}
+
+.brand-formula em {
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 1.3em;
+  font-style: normal;
+  line-height: 1;
+}
+
+.section p b.brand-initials {
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 1.15em;
+  font-weight: 700;
+}
+
+.brand-formula .brand-formula-result {
+  position: relative;
+  isolation: isolate;
+  padding: 4px 18px;
+  border-color: var(--magenta);
+  font-size: 1.5em;
+  box-shadow: 0 0 18px rgba(196, 49, 122, 0.35);
+  transition: transform 0.25s ease;
+}
+
+.brand-formula-result::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(
+    ellipse,
+    rgba(196, 49, 122, 0.22),
+    transparent 72%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.brand-formula-result:hover {
+  transform: scale(1.055);
+}
+
+/* One result letter per element makes the W/E flight land precisely. */
+.brand-result-mark {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.brand-result-letter {
+  display: inline-block;
+}
+
+/* The text is always readable without JS or with reduced motion enabled. */
+.brand-formula.is-fusing .brand-result-letter {
+  opacity: 0;
+}
+
+.brand-formula.is-fusing .brand-source-letter {
+  opacity: 0.28;
+}
+
+.brand-formula.is-complete .brand-formula-result {
+  animation: fusionArrival 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.brand-replay-button {
+  display: none;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  font: 700 21px / 1 var(--font-heading);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.3s ease;
+}
+
+.brand-formula.fx-enabled .brand-replay-button {
+  display: inline-flex;
+}
+
+.brand-replay-button:hover {
+  border-color: var(--magenta);
+  color: var(--text);
+  transform: rotate(45deg);
+}
+
+.brand-replay-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Clones sit above the page only while W/E is moving. */
+.letter-flight-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.brand-flying-letter {
+  position: absolute;
+  display: block;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 11px rgba(196, 49, 122, 0.65));
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* A soft, site-wide light follows the cursor without covering interactions. */
+.cursor-spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    340px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(167, 54, 218, 0.105),
+    rgba(196, 49, 122, 0.045) 34%,
+    transparent 72%
+  );
+  transition: opacity 0.28s ease;
+}
+
+.cursor-spotlight.is-active {
+  opacity: 1;
+}
+
+@keyframes fusionArrival {
+  0% { transform: scale(0.85); box-shadow: 0 0 2px rgba(196, 49, 122, 0); }
+  45% { transform: scale(1.2); box-shadow: 0 0 34px rgba(196, 49, 122, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 18px rgba(196, 49, 122, 0.35); }
+}
+
+/* Now: status card with a mouse-following glow. */
+.status-card {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  gap: 14px;
+  overflow: hidden;
+  padding: 20px;
+  border: 1px solid rgba(196, 49, 122, 0.12);
+  border-radius: 14px;
+  background: var(--surface);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.status-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    230px circle at var(--card-x, 50%) var(--card-y, 50%),
+    rgba(196, 49, 122, 0.14),
+    transparent 80%
+  );
+  transition: opacity 0.3s ease;
+}
+
+.status-card:hover {
+  border-color: rgba(196, 49, 122, 0.4);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.12);
+}
+
+.status-card:hover::before {
+  opacity: 1;
+}
+
+.status-card > * {
+  position: relative;
+}
+
+.status-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 6px rgba(224, 48, 63, 0.15);
+}
+
+/* Contact: animated gradient underline. */
+.contact-section {
+  text-align: center;
+}
+
+.contact-email {
+  display: inline-block;
+  position: relative;
+  margin-top: 14px;
+  padding-bottom: 3px;
+  font: 700 clamp(20px, 5.4vw, 26px) var(--font-heading);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.contact-email::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--gradient);
+  transform: scaleX(0.65);
+  transition: transform 0.35s ease;
+}
+
+.contact-email:hover {
+  color: #fff;
+}
+
+.contact-email:hover::after {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   06. Footer and scroll progress
+   -------------------------------------------------------------------------- */
+.site-footer {
+  padding-block: 24px 32px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient);
+  box-shadow: 0 0 12px rgba(196, 49, 122, 0.45);
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* --------------------------------------------------------------------------
+   07. Responsive layout
+   -------------------------------------------------------------------------- */
+@media (max-width: 420px) {
+  .brand-formula {
+    gap: 6px;
+    font-size: 14px;
   }
 
-  @media (prefers-reduced-motion:no-preference){
-    .hi,.hero p.sub,.links{animation:rise .9s .15s ease-out both}
-    @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .brand-formula > span {
+    padding: 5px 9px;
   }
-</style>
-</head>
-<body>
-<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-<div class="top"><button class="lang" id="langBtn" type="button" aria-label="Switch language">ไทย</button></div>
+  .brand-formula .brand-formula-result {
+    padding: 4px 10px;
+  }
 
-<header class="hero">
-  <svg class="shards" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f2fc2"/><stop offset="1" stop-color="#c4317a"/></linearGradient></defs>
-    <g fill="url(#g)">
-      <polygon points="80,60 230,40 330,210 250,225"/>
-      <polygon points="720,30 800,40 690,260 640,240"/>
-      <polygon points="880,330 990,320 930,400 820,410"/>
-      <polygon points="40,520 180,470 150,560 20,610"/>
-      <polygon points="760,560 900,640 860,700 720,620"/>
-      <polygon points="400,700 470,690 440,790 380,800"/>
-    </g>
-  </svg>
-  <div class="hero-sparks" id="heroSparks" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="logo-float"><img src="https://wolveden.com/Logo2.png" alt="WolvEden Production"></div>
-    <h1 class="hi" data-i18n="hi">Hi, we're <em>W</em>olv<em>E</em>den 🐺</h1>
-    <p class="sub" data-i18n="sub">A small team from Thailand making our own games.</p>
+  .brand-replay-button {
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+  }
+}
 
-    <!-- ===== ปุ่มลิงก์: เพิ่มทีหลังเมื่อมีของใหม่ =====
-         ตัวอย่าง (copy ไปวางใน div.links แล้วแก้ href):
-         <a class="btn primary" href="https://store.steampowered.com/app/...">Wishlist on Steam</a>
-         <a class="btn ghost" href="https://xxx.itch.io/...">Play on itch.io</a>
-         <a class="btn ghost" href="https://discord.gg/...">Join our Discord</a>
-    -->
-    <div class="links">
-      <a class="btn ghost" href="#contact" data-i18n="say_hi">Say hi 👋</a>
+@media (hover: none), (pointer: coarse) {
+  .cursor-spotlight { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   09. Animation and reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .status-dot {
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+
+  .hero-sparks span {
+    animation: sparkTwinkle var(--duration, 5s) ease-in-out
+      var(--delay, 0s) infinite alternate;
+  }
+
+  .hero-shards polygon {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: shardDrift 10s ease-in-out infinite alternate;
+  }
+
+  .hero-shard:nth-child(2n) polygon {
+    animation-duration: 13s;
+    animation-delay: -4s;
+  }
+
+  .hero-shard:nth-child(3n) polygon {
+    animation-duration: 16s;
+    animation-delay: -8s;
+  }
+
+  .hero-logo {
+    animation: logoFloat 7s ease-in-out infinite;
+  }
+
+  .hero-logo img {
+    animation: logoFade 0.9s ease-out both;
+  }
+
+  .hero-title,
+  .hero-subtitle,
+  .hero-links {
+    animation: contentRise 0.9s 0.15s ease-out both;
+  }
+
+  /* Added by JavaScript only when IntersectionObserver is supported. */
+  .fx-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.75s ease,
+      transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fx-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .brand-formula-result::before {
+    animation: weBreath 4s ease-in-out infinite;
+  }
+
+  @keyframes statusPulse {
+    50% {
+      box-shadow: 0 0 0 10px rgba(224, 48, 63, 0.05);
+    }
+  }
+
+  @keyframes sparkTwinkle {
+    0%,
+    100% {
+      opacity: 0.12;
+      transform: scale(0.75);
+    }
+
+    50% {
+      opacity: 0.64;
+      transform: scale(1.35);
+    }
+  }
+
+  @keyframes shardDrift {
+    from {
+      transform: translate3d(-6px, 5px, 0) rotate(-1.5deg);
+    }
+
+    to {
+      transform: translate3d(8px, -10px, 0) rotate(1.5deg);
+    }
+  }
+
+  @keyframes logoFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes logoFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes contentRise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes weBreath {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(0.96);
+    }
+
+    50% {
+      opacity: 0.95;
+      transform: scale(1.07);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .cursor-spotlight,
+  .letter-flight-layer,
+  .brand-formula.fx-enabled .brand-replay-button {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   WolvEden — Interactive v3 effects
+
+   01. Ambient aurora and scene transitions
+   02. Constellation and paw-print trail
+   03. Wolf / moon Easter egg
+   04. Development signal
+   05. Kinetic headings and light sweep
+   06. Button ripple and copy-email control
+   07. Responsive and accessibility safeguards
+
+   All decorative effects sit behind text or ignore pointer events.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. Ambient aurora
+   -------------------------------------------------------------------------- */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero,
+.section,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.aurora-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.72;
+  transition: opacity 1.1s ease;
+}
+
+.aurora-blob {
+  position: absolute;
+  width: min(72vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(75px);
+  opacity: 0.30;
+  will-change: transform;
+  transition: background 1.6s ease, opacity 1.6s ease;
+}
+
+.aurora-blob--one {
+  top: -42%;
+  left: -24%;
+  background: radial-gradient(circle, rgba(158, 52, 210, 0.45), transparent 68%);
+}
+
+.aurora-blob--two {
+  right: -28%;
+  bottom: -45%;
+  background: radial-gradient(circle, rgba(213, 53, 116, 0.38), transparent 68%);
+}
+
+body[data-scene="about"] .aurora-blob--one { opacity: 0.8; }
+body[data-scene="about"] .aurora-blob--two { opacity: 0.52; }
+body[data-scene="now"] .aurora-blob--one { opacity: 0.45; }
+body[data-scene="now"] .aurora-blob--two { opacity: 0.95; }
+body[data-scene="contact"] .aurora-blob--one { opacity: 0.70; }
+body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
+
+/* --------------------------------------------------------------------------
+   02. Constellation and wolf paw trail
+   -------------------------------------------------------------------------- */
+.hero-constellation {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+/* Keep the interactive content in front of decorative layers. */
+.hero > .wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.paw-trail-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.paw-print {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  color: #d77be6;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(211, 77, 205, 0.46));
+  transform: translate(-50%, -50%) rotate(var(--paw-rotation, 0deg));
+  animation: pawAppear 1s ease-out forwards;
+}
+
+.paw-print svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* --------------------------------------------------------------------------
+   03. Wolf Howl Easter egg (3 logo activations)
+   -------------------------------------------------------------------------- */
+.wolf-logo-trigger {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wolf-logo-trigger:focus-visible {
+  border-radius: 20px;
+}
+
+.moon-easter-egg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.moon-easter-egg.is-awake { opacity: 1; }
+
+.easter-moon {
+  position: absolute;
+  top: 15%;
+  right: 21%;
+  width: clamp(105px, 14vw, 175px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(239, 195, 251, 0.72);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 35%, #f9e8ff 0%, #d99bec 36%, #9b56cc 70%, #783d9d 100%);
+  box-shadow:
+    0 0 25px rgba(202, 113, 243, 0.45),
+    0 0 100px 33px rgba(140, 60, 197, 0.20),
+    inset -15px -17px 25px rgba(46, 24, 74, 0.36);
+  transform: scale(0.65);
+  opacity: 0;
+}
+
+.moon-easter-egg.is-awake .easter-moon {
+  opacity: 0.9;
+  transform: scale(1);
+  transition: transform 1.1s cubic-bezier(.2,.8,.2,1), opacity 1s ease;
+}
+
+.easter-star {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f6defb;
+  box-shadow: 0 0 12px 4px rgba(209, 125, 240, 0.4);
+}
+
+.easter-star--one { top: 18%; left: 23%; }
+.easter-star--two { top: 35%; right: 16%; width: 4px; height: 4px; }
+.easter-star--three { top: 51%; left: 15%; width: 3px; height: 3px; }
+
+.easter-message {
+  position: absolute;
+  right: 16px;
+  bottom: 7%;
+  left: 16px;
+  padding: 8px;
+  color: #f5dfff;
+  font: 700 clamp(13px, 2.8vw, 19px) / 1.55 var(--font-heading);
+  letter-spacing: .035em;
+  text-align: center;
+  text-shadow: 0 0 19px rgba(191, 89, 231, .7);
+  opacity: 0;
+}
+
+.moon-easter-egg.is-awake .easter-message {
+  animation: easterMessageIn 0.8s 0.35s ease-out both;
+}
+
+.wolf-sound-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 6px 13px;
+  border: 1px solid rgba(196, 49, 122, .38);
+  border-radius: 999px;
+  background: rgba(30, 26, 36, .88);
+  color: #d9b2e6;
+  font: 500 12px var(--font-heading);
+  cursor: pointer;
+}
+
+.wolf-sound-button[hidden] { display: none !important; }
+.wolf-sound-button:hover { border-color: #c4317a; color: #fff; }
+.wolf-sound-button[aria-pressed="true"] { color: #fff; border-color: #c4317a; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   04. Development signal — atmospheric indicator, never a progress meter
+   -------------------------------------------------------------------------- */
+.status-card {
+  padding-bottom: 33px;
+}
+
+.status-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(196, 49, 122, .1) 49%,
+    rgba(196, 49, 122, .03) 51%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: translateY(-105%);
+}
+
+.development-signal {
+  position: absolute;
+  right: 20px;
+  bottom: 11px;
+  display: flex;
+  align-items: end;
+  gap: 4px;
+  height: 14px;
+  opacity: .7;
+}
+
+.development-signal i {
+  width: 3px;
+  height: 5px;
+  border-radius: 2px;
+  background: var(--magenta);
+  box-shadow: 0 0 8px rgba(196, 49, 122, .3);
+}
+
+.development-signal i:nth-child(2),
+.development-signal i:nth-child(4) { height: 10px; }
+.development-signal i:nth-child(3) { height: 14px; }
+
+/* --------------------------------------------------------------------------
+   05. Heading typography and light sweep
+   -------------------------------------------------------------------------- */
+.section h2 {
+  position: relative;
+  display: table;
+  overflow: hidden;
+  padding-bottom: 5px;
+}
+
+.contact-section h2 { margin-inline: auto; }
+
+.kinetic-character {
+  display: inline-block;
+  white-space: pre;
+}
+
+.section h2::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.section h2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(249, 213, 255, .0) 38%,
+    rgba(249, 213, 255, .27) 50%,
+    rgba(249, 213, 255, .0) 62%,
+    transparent 80%
+  );
+  transform: translateX(-140%);
+}
+
+/* --------------------------------------------------------------------------
+   06. Click ripples and contact micro-interaction
+   -------------------------------------------------------------------------- */
+.fx-ripple-host {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.fx-click-ripple {
+  position: absolute;
+  z-index: 3;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(226, 162, 249, .5);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: clickRipple 0.63s ease-out forwards;
+}
+
+.contact-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.copy-email-button {
+  display: inline-grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  margin-top: 14px;
+  border: 1px solid rgba(196, 49, 122, .45);
+  border-radius: 10px;
+  background: var(--surface);
+  color: #e3b9f0;
+  cursor: pointer;
+  transition: border-color .25s ease, background .25s ease;
+}
+
+.copy-email-button:hover {
+  border-color: #dd8ae8;
+  background: #35253f;
+}
+
+.copy-email-button.is-copied {
+  border-color: #d388e8;
+  color: #fff;
+}
+
+.copy-feedback {
+  display: block;
+  min-height: 1.55em;
+  margin-top: 6px;
+  color: #d8a7ea;
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------------------
+   07. Keyframes / device preferences
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .aurora-blob--one { animation: auroraDriftOne 18s ease-in-out infinite alternate; }
+  .aurora-blob--two { animation: auroraDriftTwo 22s ease-in-out infinite alternate; }
+
+  .status-card.is-signal-active::after {
+    opacity: .65;
+    animation: signalSweep 5.5s ease-in-out infinite;
+  }
+
+  .status-card.is-signal-active .development-signal i {
+    animation: signalBars 1.35s ease-in-out infinite alternate;
+  }
+
+  .development-signal i:nth-child(2) { animation-delay: -.2s !important; }
+  .development-signal i:nth-child(3) { animation-delay: -.7s !important; }
+  .development-signal i:nth-child(4) { animation-delay: -.45s !important; }
+  .development-signal i:nth-child(5) { animation-delay: -.9s !important; }
+
+  .section.is-v3-revealed h2::before {
+    animation: drawHeadingLine 0.85s 0.15s ease-out forwards;
+  }
+
+  .section.is-v3-revealed h2::after {
+    animation: headingLightSweep 0.95s 0.45s ease-in-out both;
+  }
+
+  .section h2.is-kinetic-visible .kinetic-character {
+    animation: kineticArrive .64s cubic-bezier(.18,.84,.3,1) both;
+    animation-delay: calc(var(--character-index, 0) * 24ms);
+  }
+
+  .moon-easter-egg.is-awake .easter-star {
+    animation: moonStarPulse 1.5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes auroraDriftOne {
+  to { transform: translate3d(16%, 13%, 0) scale(1.15); }
+}
+@keyframes auroraDriftTwo {
+  to { transform: translate3d(-16%, -17%, 0) scale(1.12); }
+}
+@keyframes pawAppear {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.5) rotate(var(--paw-rotation)); }
+  20% { opacity: .60; }
+  100% { opacity: 0; transform: translate(-50%, -76%) scale(.98) rotate(var(--paw-rotation)); }
+}
+@keyframes easterMessageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes moonStarPulse {
+  to { opacity: .3; transform: scale(.65); }
+}
+@keyframes signalSweep {
+  0%, 4% { transform: translateY(-105%); }
+  50% { transform: translateY(105%); }
+  96%, 100% { transform: translateY(105%); }
+}
+@keyframes signalBars {
+  to { transform: scaleY(.33); opacity: .35; }
+}
+@keyframes drawHeadingLine {
+  to { transform: scaleX(1); }
+}
+@keyframes headingLightSweep {
+  to { transform: translateX(140%); }
+}
+@keyframes kineticArrive {
+  from { opacity: 0; transform: translateY(12px) rotate(-4deg); filter: blur(3px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes clickRipple {
+  to { opacity: 0; transform: translate(-50%, -50%) scale(13); }
+}
+
+@media (max-width: 600px) {
+  .aurora-layer { opacity: .32; }
+  .aurora-blob { filter: blur(55px); width: 90vw; }
+  .easter-moon { top: 17%; right: 9%; width: 94px; }
+  .easter-message { bottom: 8%; }
+  .hero-constellation, .paw-trail-layer { display: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .aurora-blob { animation: none !important; }
+  .hero-constellation, .paw-trail-layer { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob { filter: blur(65px); }
+  .paw-trail-layer, .hero-constellation { display: none; }
+  .moon-easter-egg.is-awake .easter-moon { transform: none; }
+  .moon-easter-egg.is-awake .easter-message { opacity: 1; }
+  .section h2::before { transform: none; }
+  .section h2::after { display: none; }
+  .fx-click-ripple { display: none; }
+}
+
+/* Animate the artwork, not the clickable button's hit target. */
+@media (prefers-reduced-motion: no-preference) {
+  .wolf-logo-trigger { animation: none; }
+  .wolf-logo-trigger img { animation: logoFloat 7s ease-in-out infinite; }
+  .wolf-logo-trigger:hover img,
+  .wolf-logo-trigger:focus-visible img { animation-play-state: paused; }
+}
+
+    </style>
+  </head>
+
+  <body data-scene="hero">
+    <!-- Ambient backdrop, kept behind content and disabled for reduced motion. -->
+    <div class="aurora-layer" id="auroraLayer" aria-hidden="true">
+      <span class="aurora-blob aurora-blob--one"></span>
+      <span class="aurora-blob aurora-blob--two"></span>
     </div>
-  </div>
-</header>
 
-<section id="about">
-  <div class="wrap">
-    <h2 data-i18n="about_t">About us</h2>
-    <p data-i18n="about_p1">We're a tiny studio that really loves games. Our name comes from two words. <b><em>W</em>olve</b> is our pack, a group of creators who are each good at different things. <b><em>E</em>den</b> is where we're free to make whatever we dream up.</p>
-    <p data-i18n="about_p2">Take the W and the E, and you get <b class="wegrad">WE</b>. That's us.</p>
-    <div class="we" aria-label="Wolve plus Eden equals WE"><span><em>W</em>olve</span><i>+</i><span><em>E</em>den</span><i>=</i><span class="we-total"><b class="grad-text">WE</b></span></div>
-  </div>
-</section>
+    <!-- Pointer-only decorative footprints, never interactive. -->
+    <div class="paw-trail-layer" id="pawTrailLayer" aria-hidden="true"></div>
 
-<section id="now">
-  <div class="wrap">
-    <h2 data-i18n="now_t">What we're up to</h2>
-    <div class="now">
-      <span class="dot" aria-hidden="true"></span>
-      <p data-i18n="now_p">Working on an original game of our own. Nothing to show just yet. We'll share it here when it's ready.</p>
+    <!-- Decorative scroll indicator (controlled by JavaScript). -->
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- A lightweight pointer glow; JavaScript activates it on desktop only. -->
+    <div class="cursor-spotlight" id="cursorSpotlight" aria-hidden="true"></div>
+
+    <!-- Flying W/E letters are temporarily rendered in this layer. -->
+    <div class="letter-flight-layer" id="letterFlightLayer" aria-hidden="true"></div>
+
+    <!-- Language switcher. -->
+    <div class="top">
+      <button
+        class="language-button"
+        id="languageButton"
+        type="button"
+        aria-label="Switch language"
+      >
+        ไทย
+      </button>
     </div>
-  </div>
-</section>
 
-<section class="contact" id="contact">
-  <div class="wrap">
-    <h2 data-i18n="contact_t">Let's talk</h2>
-    <p data-i18n="contact_p">Got a project in mind, or a game idea that needs our services? Tell us about it.</p>
-    <a class="mail" href="mailto:contact@wolveden.com">contact@wolveden.com</a>
-  </div>
-</section>
+    <!-- ===================================================================
+         HERO: Branding and primary call to action
+         =================================================================== -->
+    <header class="hero" id="hero">
+      <svg
+        class="hero-shards"
+        viewBox="0 0 1000 800"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="shardGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#8f2fc2" />
+            <stop offset="1" stop-color="#c4317a" />
+          </linearGradient>
+        </defs>
+        <g fill="url(#shardGradient)">
+          <!-- Each group can move independently without stopping polygon drift. -->
+          <g class="hero-shard"><polygon points="80,60 230,40 330,210 250,225" /></g>
+          <g class="hero-shard"><polygon points="720,30 800,40 690,260 640,240" /></g>
+          <g class="hero-shard"><polygon points="880,330 990,320 930,400 820,410" /></g>
+          <g class="hero-shard"><polygon points="40,520 180,470 150,560 20,610" /></g>
+          <g class="hero-shard"><polygon points="760,560 900,640 860,700 720,620" /></g>
+          <g class="hero-shard"><polygon points="400,700 470,690 440,790 380,800" /></g>
+        </g>
+      </svg>
 
-<footer>
-  <div class="wrap">
-    <span data-i18n="footer">© 2026 WolvEden Production Co., Ltd.</span>
-    <!-- TODO: เพิ่มลิงก์ Privacy Policy เมื่อมีหน้าจริง (ต้องมีก่อนลงเกมใน store) -->
-  </div>
-</footer>
+      <!-- Constellation lines are painted on this canvas for desktop pointers. -->
+      <canvas class="hero-constellation" id="heroConstellation" aria-hidden="true"></canvas>
 
-<script>
-(function(){
-  var TH = {
-    hi:"สวัสดี เราคือ <em>W</em>olv<em>E</em>den 🐺",
-    sub:"สตูดิโอเกมเล็กๆ จากประเทศไทย ที่กำลังสร้างเกมในแบบของเราเอง",
-    say_hi:"ทักทายเรา 👋",
-    about_t:"เกี่ยวกับเรา",
-    about_p1:"เราเป็นทีมที่หลงใหลในการสร้างเกม ชื่อ WolvEden เกิดจากการรวมกันของสองคำ <b><em>W</em>olve</b> คือฝูงของเรา กลุ่มนักสร้างที่แต่ละคนมีความถนัดแตกต่างกัน ส่วน <b><em>E</em>den</b> คือพื้นที่ที่เราได้สร้างสรรค์สิ่งที่ฝันไว้อย่างอิสระ",
-    about_p2:"เมื่อ W จาก Wolve และ E จาก Eden มารวมกัน ก็กลายเป็น <b class='wegrad'>WE</b> คำสั้นๆ ที่หมายถึง “พวกเรา”",
-    now_t:"ตอนนี้เรากำลังทำอะไร",
-    now_p:"ตอนนี้เรากำลังพัฒนาเกมของเราเองอยู่ ยังไม่มีอะไรให้ดูก็จริง แต่พร้อมเมื่อไหร่จะมาอวดที่นี่แน่นอน",
-    contact_t:"มาคุยกัน",
-    contact_p:"มีโปรเจกต์ที่อยากทำ หรือไอเดียเกมที่กำลังมองหาคนช่วยพัฒนา? เล่าให้เราฟังได้เลย",
-    footer:"© 2026 บริษัท วู๊ล์ฟอีเด็น โปรดักชั่น จำกัด"
+      <!-- Hidden moon and message: unlocked by tapping the logo three times. -->
+      <div class="moon-easter-egg" id="moonEasterEgg" aria-hidden="true">
+        <div class="easter-moon"></div>
+        <span class="easter-star easter-star--one"></span>
+        <span class="easter-star easter-star--two"></span>
+        <span class="easter-star easter-star--three"></span>
+        <p class="easter-message" id="easterMessage">Every dream begins with a pack.</p>
+      </div>
+
+      <!-- Spark elements are generated by JavaScript. -->
+      <div class="hero-sparks" id="heroSparks" aria-hidden="true"></div>
+
+      <div class="wrap">
+        <!-- The logo is a keyboard-accessible Easter egg trigger. -->
+        <button
+          class="hero-logo wolf-logo-trigger"
+          id="wolfLogoTrigger"
+          type="button"
+          aria-label="WolvEden logo"
+        >
+          <img
+            src="https://wolveden.com/Logo2.png"
+            alt="WolvEden Production"
+          >
+        </button>
+
+        <h1 class="hero-title" data-i18n="hi">
+          Hi, we're <em>W</em>olv<em>E</em>den 🐺
+        </h1>
+        <p class="hero-subtitle" data-i18n="sub">
+          A small team from Thailand making our own games.
+        </p>
+
+        <!-- Add game / community buttons here when the links are ready.
+             Example:
+             <a class="button button--primary" href="YOUR_STEAM_URL">Wishlist on Steam</a>
+             <a class="button button--ghost" href="YOUR_ITCH_URL">Play on itch.io</a>
+        -->
+        <div class="hero-links">
+          <a class="button button--ghost" href="#contact" data-i18n="say_hi">
+            Say hi 👋
+          </a>
+        </div>
+
+        <!-- No sound is played until this control is explicitly enabled. -->
+        <button
+          class="wolf-sound-button"
+          id="wolfSoundButton"
+          type="button"
+          aria-pressed="false"
+          hidden
+        >
+          <span aria-hidden="true">♪</span>
+          <span id="wolfSoundLabel">Howl sound: off</span>
+        </button>
+        <span class="visually-hidden" id="wolfSecretStatus" role="status" aria-live="polite"></span>
+      </div>
+    </header>
+
+    <main>
+      <!-- ================================================================
+           ABOUT: Studio identity and the meaning of WE
+           ================================================================ -->
+      <section class="section" id="about">
+        <div class="wrap">
+          <h2 data-i18n="about_t">About us</h2>
+          <p data-i18n="about_p1">
+            We're a tiny studio that really loves games. Our name comes from two
+            words. <b><em>W</em>olve</b> is our pack, a group of creators who are
+            each good at different things. <b><em>E</em>den</b> is where we're
+            free to make whatever we dream up.
+          </p>
+          <p data-i18n="about_p2">
+            Take the W and the E, and you get <b class="brand-initials">WE</b>.
+            That's us.
+          </p>
+
+          <!-- W and E travel from their source words into the final WE mark. -->
+          <div class="brand-formula" id="brandFormula" aria-label="Wolve plus Eden equals WE">
+            <span class="brand-source-word"><em class="brand-source-letter">W</em>olve</span>
+            <i>+</i>
+            <span class="brand-source-word"><em class="brand-source-letter">E</em>den</span>
+            <i>=</i>
+            <span class="brand-formula-result" id="brandFormulaResult">
+              <b class="brand-result-mark"><span class="brand-result-letter gradient-text">W</span><span class="brand-result-letter gradient-text">E</span></b>
+            </span>
+            <!-- Hidden if JavaScript or motion support is unavailable. -->
+            <button
+              class="brand-replay-button"
+              id="brandReplayButton"
+              type="button"
+              aria-label="Replay WE animation"
+              title="Replay WE animation"
+            ><span aria-hidden="true">↻</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           NOW: Current work status
+           ================================================================ -->
+      <section class="section" id="now">
+        <div class="wrap">
+          <h2 data-i18n="now_t">What we're up to</h2>
+          <div class="status-card" id="statusCard">
+            <span class="status-dot" aria-hidden="true"></span>
+            <p data-i18n="now_p">
+              Working on an original game of our own. Nothing to show just yet.
+              We'll share it here when it's ready.
+            </p>
+            <!-- Animated scan/wave bars communicate activity, not progress. -->
+            <span class="development-signal" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           CONTACT: Primary email contact
+           ================================================================ -->
+      <section class="section contact-section" id="contact">
+        <div class="wrap">
+          <h2 data-i18n="contact_t">Let's talk</h2>
+          <p data-i18n="contact_p">
+            Got a project in mind, or a game idea that needs our services?
+            Tell us about it.
+          </p>
+          <div class="contact-actions">
+            <a class="contact-email" href="mailto:contact@wolveden.com">
+              contact@wolveden.com
+            </a>
+            <button
+              class="copy-email-button"
+              id="copyEmailButton"
+              type="button"
+              aria-label="Copy email address"
+              title="Copy email address"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+                <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+              </svg>
+            </button>
+          </div>
+          <span class="copy-feedback" id="copyFeedback" role="status" aria-live="polite"></span>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
+    <footer class="site-footer">
+      <div class="wrap">
+        <span data-i18n="footer">© 2026 WolvEden Production Co., Ltd.</span>
+        <!-- TODO: Add a Privacy Policy link after publishing that page. -->
+      </div>
+    </footer>
+    <!-- Single-file edition: app logic and optional effects. -->
+    <script>
+/**
+ * WolvEden Production — Website behavior
+ *
+ * Features:
+ *   1. English / Thai language switching
+ *   2. Scroll progress indicator
+ *   3. Reveal sections when scrolling
+ *   4. Desktop-only parallax and hover glow
+ *   5. Decorative particles in the hero
+ *   6. W + E flying into the final WE mark
+ *   7. Interactive SVG shards and cursor spotlight
+ *
+ * All effects are optional. The page remains usable without JavaScript.
+ */
+
+(() => {
+  "use strict";
+
+  // -------------------------------------------------------------------------
+  // Configuration
+  // -------------------------------------------------------------------------
+  const LANGUAGE_STORAGE_KEY = "wdp_lang";
+  const HERO_SPARK_COUNT = 17;
+  const SHARD_REPEL_RADIUS = 210;
+  const SHARD_REPEL_DISTANCE = 45;
+  const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+  const DESKTOP_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+
+  // The original English content comes from the HTML itself.
+  // Keep translations here so text can be updated independently of effects.
+  const thaiTranslations = {
+    hi: "สวัสดี เราคือ <em>W</em>olv<em>E</em>den 🐺",
+    sub: "สตูดิโอเกมเล็กๆ จากประเทศไทย ที่กำลังสร้างเกมในแบบของเราเอง",
+    say_hi: "ทักทายเรา 👋",
+    about_t: "เกี่ยวกับเรา",
+    about_p1:
+      "เราเป็นทีมที่หลงใหลในการสร้างเกม ชื่อ WolvEden เกิดจากการรวมกันของสองคำ " +
+      "<b><em>W</em>olve</b> คือฝูงของเรา กลุ่มนักสร้างที่แต่ละคนมีความถนัดแตกต่างกัน " +
+      "ส่วน <b><em>E</em>den</b> คือพื้นที่ที่เราได้สร้างสรรค์สิ่งที่ฝันไว้อย่างอิสระ",
+    about_p2:
+      "เมื่อ W จาก Wolve และ E จาก Eden มารวมกัน ก็กลายเป็น " +
+      "<b class='brand-initials'>WE</b> คำสั้นๆ ที่หมายถึง “พวกเรา”",
+    now_t: "ตอนนี้เรากำลังทำอะไร",
+    now_p:
+      "ตอนนี้เรากำลังพัฒนาเกมของเราเองอยู่ ยังไม่มีอะไรให้ดูก็จริง " +
+      "แต่พร้อมเมื่อไหร่จะมาอวดที่นี่แน่นอน",
+    contact_t: "มาคุยกัน",
+    contact_p:
+      "มีโปรเจกต์ที่อยากทำ หรือไอเดียเกมที่กำลังมองหาคนช่วยพัฒนา? " +
+      "เล่าให้เราฟังได้เลย",
+    footer: "© 2026 บริษัท วู๊ล์ฟอีเด็น โปรดักชั่น จำกัด"
   };
-  var nodes = document.querySelectorAll("[data-i18n]");
-  var EN = {};
-  nodes.forEach(function(n){ EN[n.dataset.i18n] = n.innerHTML; });
-  var btn = document.getElementById("langBtn");
-  function apply(lang){
-    var dict = lang === "th" ? TH : EN;
-    nodes.forEach(function(n){ var k = n.dataset.i18n; if (dict[k] != null) n.innerHTML = dict[k]; });
-    document.documentElement.lang = lang;
-    btn.textContent = lang === "th" ? "EN" : "ไทย";
-    try { localStorage.setItem("wdp_lang", lang); } catch(e) {}
-  }
-  btn.addEventListener("click", function(){ apply(document.documentElement.lang === "th" ? "en" : "th"); });
-  var saved = null;
-  try { saved = localStorage.getItem("wdp_lang"); } catch(e) {}
-  if (saved === "th") apply("th");
 
-  // Progressive enhancement: effects do not affect content when JS is unavailable.
-  var progress = document.getElementById("scrollProgress");
-  var progressQueued = false;
-  function updateProgress(){
-    progressQueued = false;
-    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    var value = maxScroll > 0 ? Math.min(1,Math.max(0,window.scrollY / maxScroll)) : 0;
-    progress.style.transform = "scaleX(" + value + ")";
-  }
-  function queueProgress(){
-    if (progressQueued) return;
-    progressQueued = true;
-    requestAnimationFrame(updateProgress);
-  }
-  window.addEventListener("scroll",queueProgress,{passive:true});
-  window.addEventListener("resize",queueProgress,{passive:true});
-  updateProgress();
+  // -------------------------------------------------------------------------
+  // 1. Language switcher
+  // -------------------------------------------------------------------------
+  function initializeLanguageSwitcher() {
+    const languageButton = document.getElementById("languageButton");
+    const translatedElements = document.querySelectorAll("[data-i18n]");
 
-  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!reducedMotion && "IntersectionObserver" in window){
-    var revealTargets = document.querySelectorAll("section > .wrap");
-    var revealObserver = new IntersectionObserver(function(entries,observer){
-      entries.forEach(function(entry){
+    if (!languageButton) return;
+
+    const englishTranslations = {};
+
+    translatedElements.forEach((element) => {
+      const translationKey = element.dataset.i18n;
+      englishTranslations[translationKey] = element.innerHTML;
+    });
+
+    function applyLanguage(language) {
+      const translations = language === "th"
+        ? thaiTranslations
+        : englishTranslations;
+
+      translatedElements.forEach((element) => {
+        const translationKey = element.dataset.i18n;
+        const translatedHtml = translations[translationKey];
+
+        if (translatedHtml !== undefined) {
+          // Translation HTML is authored locally, not taken from user input.
+          element.innerHTML = translatedHtml;
+        }
+      });
+
+      document.documentElement.lang = language;
+      languageButton.textContent = language === "th" ? "EN" : "ไทย";
+      languageButton.setAttribute(
+        "aria-label",
+        language === "th" ? "Switch to English" : "เปลี่ยนเป็นภาษาไทย"
+      );
+      // Allow optional effect modules to refresh their localized controls.
+      document.dispatchEvent(new CustomEvent("wolveden:languagechange", {
+        detail: { language }
+      }));
+
+      // Keep labels outside data-i18n synchronized with the active language.
+      const formula = document.getElementById("brandFormula");
+      const replayButton = document.getElementById("brandReplayButton");
+      const replayLabel = language === "th"
+        ? "เล่นแอนิเมชัน WE อีกครั้ง"
+        : "Replay WE animation";
+
+      formula?.setAttribute(
+        "aria-label",
+        language === "th" ? "Wolve บวก Eden เท่ากับ WE" : "Wolve plus Eden equals WE"
+      );
+      replayButton?.setAttribute("aria-label", replayLabel);
+      replayButton?.setAttribute("title", replayLabel);
+
+      try {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+      } catch (error) {
+        // Language switching still works when storage is unavailable.
+      }
+    }
+
+    languageButton.addEventListener("click", () => {
+      const nextLanguage = document.documentElement.lang === "th" ? "en" : "th";
+      applyLanguage(nextLanguage);
+    });
+
+    try {
+      if (localStorage.getItem(LANGUAGE_STORAGE_KEY) === "th") {
+        applyLanguage("th");
+      }
+    } catch (error) {
+      // Default to English when storage is unavailable.
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // 2. Scroll progress
+  // -------------------------------------------------------------------------
+  function initializeScrollProgress() {
+    const progressBar = document.getElementById("scrollProgress");
+    if (!progressBar) return;
+
+    let frameRequested = false;
+
+    function updateScrollProgress() {
+      frameRequested = false;
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollFraction = maxScroll > 0
+        ? Math.min(1, Math.max(0, window.scrollY / maxScroll))
+        : 0;
+
+      progressBar.style.transform = `scaleX(${scrollFraction})`;
+    }
+
+    function requestScrollUpdate() {
+      if (frameRequested) return;
+
+      frameRequested = true;
+      requestAnimationFrame(updateScrollProgress);
+    }
+
+    window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+    window.addEventListener("resize", requestScrollUpdate, { passive: true });
+    updateScrollProgress();
+  }
+
+  // -------------------------------------------------------------------------
+  // 3. Scroll reveal
+  // -------------------------------------------------------------------------
+  function initializeScrollReveal() {
+    if (!("IntersectionObserver" in window)) return;
+
+    const sectionContents = document.querySelectorAll(".section > .wrap");
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+
         entry.target.classList.add("is-visible");
         observer.unobserve(entry.target);
       });
-    },{threshold:.10,rootMargin:"0px 0px -20px 0px"});
-    revealTargets.forEach(function(el){el.classList.add("fx-reveal");revealObserver.observe(el);});
-  }
-
-  // Mouse-only parallax; touch devices keep the static artwork.
-  if (!reducedMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches){
-    var hero = document.querySelector(".hero");
-    var pendingHero = false;
-    var mouseX = 0,mouseY = 0;
-    hero.addEventListener("pointermove",function(e){
-      var rect = hero.getBoundingClientRect();
-      mouseX = ((e.clientX - rect.left) / rect.width - .5) * 2;
-      mouseY = ((e.clientY - rect.top) / rect.height - .5) * 2;
-      if (pendingHero) return;
-      pendingHero = true;
-      requestAnimationFrame(function(){
-        pendingHero = false;
-        hero.style.setProperty("--glow-x",(mouseX*22).toFixed(1)+"px");
-        hero.style.setProperty("--glow-y",(mouseY*18).toFixed(1)+"px");
-        hero.style.setProperty("--shard-x",(mouseX*-12).toFixed(1)+"px");
-        hero.style.setProperty("--shard-y",(mouseY*-9).toFixed(1)+"px");
-      });
-    },{passive:true});
-    hero.addEventListener("pointerleave",function(){
-      ["--glow-x","--glow-y","--shard-x","--shard-y"].forEach(function(k){hero.style.removeProperty(k);});
+    }, {
+      threshold: 0.1,
+      rootMargin: "0px 0px -20px 0px"
     });
 
-    var card = document.querySelector(".now");
-    card.addEventListener("pointermove",function(e){
-      var rect = card.getBoundingClientRect();
-      card.style.setProperty("--card-x",(100*(e.clientX-rect.left)/rect.width).toFixed(1)+"%");
-      card.style.setProperty("--card-y",(100*(e.clientY-rect.top)/rect.height).toFixed(1)+"%");
-    },{passive:true});
+    sectionContents.forEach((element) => {
+      element.classList.add("fx-reveal");
+      revealObserver.observe(element);
+    });
   }
 
-  // Sparse ambient sparks: deterministic placement, no heavy canvas or libraries.
-  if (!reducedMotion){
-    var sparks = document.getElementById("heroSparks");
-    var fragment = document.createDocumentFragment();
-    for (var i=0;i<17;i++){
-      var spark = document.createElement("span");
-      spark.style.setProperty("--x",(6 + (i*47)%88)+"%");
-      spark.style.setProperty("--y",(7 + (i*29)%84)+"%");
-      spark.style.setProperty("--size",(i%4===0?3:2)+"px");
-      spark.style.setProperty("--duration",(3.3+(i%5)*.9)+"s");
-      spark.style.setProperty("--delay",(-i*.73)+"s");
+  // -------------------------------------------------------------------------
+  // 4. Desktop pointer effects
+  // -------------------------------------------------------------------------
+  function initializePointerEffects() {
+    if (!window.matchMedia(DESKTOP_POINTER_QUERY).matches) return;
+
+    initializeHeroParallax();
+    initializeInteractiveShards();
+    initializeCursorSpotlight();
+    initializeStatusCardGlow();
+  }
+
+  function initializeHeroParallax() {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+
+    let frameRequested = false;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    hero.addEventListener("pointermove", (event) => {
+      const bounds = hero.getBoundingClientRect();
+
+      pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+      pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+
+      if (frameRequested) return;
+      frameRequested = true;
+
+      requestAnimationFrame(() => {
+        frameRequested = false;
+
+        hero.style.setProperty("--glow-x", `${(pointerX * 22).toFixed(1)}px`);
+        hero.style.setProperty("--glow-y", `${(pointerY * 18).toFixed(1)}px`);
+        hero.style.setProperty("--shard-x", `${(pointerX * -12).toFixed(1)}px`);
+        hero.style.setProperty("--shard-y", `${(pointerY * -9).toFixed(1)}px`);
+      });
+    }, { passive: true });
+
+    hero.addEventListener("pointerleave", () => {
+      ["--glow-x", "--glow-y", "--shard-x", "--shard-y"].forEach(
+        (propertyName) => hero.style.removeProperty(propertyName)
+      );
+    });
+  }
+
+  function initializeStatusCardGlow() {
+    const statusCard = document.getElementById("statusCard");
+    if (!statusCard) return;
+
+    statusCard.addEventListener("pointermove", (event) => {
+      const bounds = statusCard.getBoundingClientRect();
+      const xPercent = 100 * (event.clientX - bounds.left) / bounds.width;
+      const yPercent = 100 * (event.clientY - bounds.top) / bounds.height;
+
+      statusCard.style.setProperty("--card-x", `${xPercent.toFixed(1)}%`);
+      statusCard.style.setProperty("--card-y", `${yPercent.toFixed(1)}%`);
+    }, { passive: true });
+  }
+
+  // -------------------------------------------------------------------------
+  // 5. Interactive shards (desktop only)
+  // -------------------------------------------------------------------------
+  function initializeInteractiveShards() {
+    const hero = document.getElementById("hero");
+    const svg = hero?.querySelector(".hero-shards");
+    const shards = Array.from(svg?.querySelectorAll(".hero-shard") || []);
+
+    if (!hero || !svg || !shards.length) return;
+
+    const pointer = { x: 0, y: 0, inside: false, bursting: false };
+    let frameRequested = false;
+    let burstTimer = null;
+
+    function updateShards() {
+      frameRequested = false;
+
+      // Use the SVG matrix to respect the viewBox and preserveAspectRatio.
+      const matrix = svg.getScreenCTM();
+      if (!matrix) return;
+
+      shards.forEach((shard, index) => {
+        const polygon = shard.querySelector("polygon");
+        const bounds = polygon.getBBox();
+        const center = svg.createSVGPoint();
+        center.x = bounds.x + bounds.width / 2;
+        center.y = bounds.y + bounds.height / 2;
+        const screenCenter = center.matrixTransform(matrix);
+
+        const dx = screenCenter.x - pointer.x;
+        const dy = screenCenter.y - pointer.y;
+        const distance = Math.hypot(dx, dy);
+        const proximity = pointer.inside
+          ? Math.max(0, 1 - distance / SHARD_REPEL_RADIUS)
+          : 0;
+        const power = Math.pow(proximity, 1.35);
+        const strength = pointer.bursting ? 2.3 : 1;
+        const directionX = distance > 0.1 ? dx / distance : (index % 2 ? 1 : -1);
+        const directionY = distance > 0.1 ? dy / distance : -1;
+
+        shard.style.setProperty(
+          "--repel-x", `${(directionX * SHARD_REPEL_DISTANCE * power * strength).toFixed(1)}px`
+        );
+        shard.style.setProperty(
+          "--repel-y", `${(directionY * SHARD_REPEL_DISTANCE * power * strength).toFixed(1)}px`
+        );
+        shard.style.setProperty(
+          "--repel-rotation", `${((index % 2 ? 1 : -1) * 9 * power * strength).toFixed(1)}deg`
+        );
+        shard.classList.toggle("is-near", power > 0.15);
+      });
+    }
+
+    function requestShardUpdate() {
+      if (frameRequested || window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
+      frameRequested = true;
+      requestAnimationFrame(updateShards);
+    }
+
+    hero.addEventListener("pointermove", (event) => {
+      pointer.x = event.clientX;
+      pointer.y = event.clientY;
+      pointer.inside = true;
+      requestShardUpdate();
+    }, { passive: true });
+
+    hero.addEventListener("pointerleave", () => {
+      pointer.inside = false;
+      pointer.bursting = false;
+      requestShardUpdate();
+    });
+
+    // A click on empty hero space briefly pushes nearby shards farther away.
+    hero.addEventListener("click", (event) => {
+      if (event.target.closest("a, button")) return;
+      pointer.x = event.clientX;
+      pointer.y = event.clientY;
+      pointer.inside = true;
+      pointer.bursting = true;
+      requestShardUpdate();
+
+      clearTimeout(burstTimer);
+      burstTimer = setTimeout(() => {
+        pointer.bursting = false;
+        requestShardUpdate();
+      }, 340);
+    });
+
+    window.addEventListener("resize", requestShardUpdate, { passive: true });
+  }
+
+  // -------------------------------------------------------------------------
+  // 6. Page-wide cursor spotlight (desktop only)
+  // -------------------------------------------------------------------------
+  function initializeCursorSpotlight() {
+    const spotlight = document.getElementById("cursorSpotlight");
+    if (!spotlight) return;
+
+    let frameRequested = false;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    window.addEventListener("pointermove", (event) => {
+      if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      spotlight.classList.add("is-active");
+
+      if (frameRequested) return;
+      frameRequested = true;
+      requestAnimationFrame(() => {
+        frameRequested = false;
+        spotlight.style.setProperty("--spotlight-x", `${pointerX}px`);
+        spotlight.style.setProperty("--spotlight-y", `${pointerY}px`);
+      });
+    }, { passive: true });
+
+    document.addEventListener("pointerout", (event) => {
+      if (!event.relatedTarget) spotlight.classList.remove("is-active");
+    });
+    window.addEventListener("blur", () => spotlight.classList.remove("is-active"));
+  }
+
+  // -------------------------------------------------------------------------
+  // 7. W + E => WE formation animation
+  // -------------------------------------------------------------------------
+  function initializeWeFusion() {
+    const formula = document.getElementById("brandFormula");
+    const flightLayer = document.getElementById("letterFlightLayer");
+    const replayButton = document.getElementById("brandReplayButton");
+    const sourceLetters = Array.from(formula?.querySelectorAll(".brand-source-letter") || []);
+    const resultLetters = Array.from(formula?.querySelectorAll(".brand-result-letter") || []);
+
+    // Leave the static equation visible when animation APIs are unavailable.
+    if (!formula || !flightLayer || !replayButton ||
+        sourceLetters.length !== 2 || resultLetters.length !== 2 ||
+        !("IntersectionObserver" in window) ||
+        !("animate" in Element.prototype)) return;
+
+    let playing = false;
+    let hasPlayed = false;
+    formula.classList.add("fx-enabled");
+
+    function animateLetter(source, destination, delay) {
+      const sourceBounds = source.getBoundingClientRect();
+      const targetBounds = destination.getBoundingClientRect();
+      const computed = window.getComputedStyle(source);
+      const flyingLetter = document.createElement("span");
+      flyingLetter.className = "brand-flying-letter";
+      flyingLetter.textContent = source.textContent;
+      flyingLetter.style.left = `${sourceBounds.left}px`;
+      flyingLetter.style.top = `${sourceBounds.top}px`;
+      flyingLetter.style.width = `${sourceBounds.width}px`;
+      flyingLetter.style.height = `${sourceBounds.height}px`;
+      flyingLetter.style.font = `${computed.fontWeight} ${computed.fontSize}/${computed.lineHeight} ${computed.fontFamily}`;
+      flightLayer.appendChild(flyingLetter);
+
+      const startX = sourceBounds.left + sourceBounds.width / 2;
+      const startY = sourceBounds.top + sourceBounds.height / 2;
+      const endX = targetBounds.left + targetBounds.width / 2;
+      const endY = targetBounds.top + targetBounds.height / 2;
+      const scale = Math.max(0.8, targetBounds.height / Math.max(sourceBounds.height, 1));
+
+      const animation = flyingLetter.animate([
+        { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1, offset: 0 },
+        { transform: `translate3d(${(endX - startX) * 0.56}px, -19px, 0) scale(1.2)`, opacity: 1, offset: 0.52 },
+        { transform: `translate3d(${endX - startX}px, ${endY - startY}px, 0) scale(${scale})`, opacity: 1, offset: 1 }
+      ], {
+        duration: 820,
+        delay,
+        easing: "cubic-bezier(0.23, 0.8, 0.25, 1)",
+        fill: "forwards"
+      });
+
+      return animation.finished
+        .catch(() => {})
+        .then(() => {
+          animation.cancel();
+          flyingLetter.remove();
+        });
+    }
+
+    async function playFusion() {
+      if (playing || window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
+      playing = true;
+      hasPlayed = true;
+      replayButton.disabled = true;
+      formula.classList.remove("is-complete");
+      formula.classList.add("is-fusing");
+
+      try {
+        await Promise.all([
+          animateLetter(sourceLetters[0], resultLetters[0], 0),
+          animateLetter(sourceLetters[1], resultLetters[1], 110)
+        ]);
+      } finally {
+        formula.classList.remove("is-fusing");
+        formula.classList.add("is-complete");
+        replayButton.disabled = false;
+        playing = false;
+      }
+    }
+
+    replayButton.addEventListener("click", playFusion);
+
+    const observer = new IntersectionObserver((entries) => {
+      if (hasPlayed || !entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      playFusion();
+    }, { threshold: 0.55 });
+
+    observer.observe(formula);
+  }
+
+  // -------------------------------------------------------------------------
+  // 8. Ambient hero particles
+  // -------------------------------------------------------------------------
+  function initializeHeroSparks() {
+    const sparkContainer = document.getElementById("heroSparks");
+    if (!sparkContainer) return;
+
+    const fragment = document.createDocumentFragment();
+
+    for (let index = 0; index < HERO_SPARK_COUNT; index++) {
+      const spark = document.createElement("span");
+
+      // Deterministic positions keep the page consistent on every load.
+      spark.style.setProperty("--x", `${6 + (index * 47) % 88}%`);
+      spark.style.setProperty("--y", `${7 + (index * 29) % 84}%`);
+      spark.style.setProperty("--size", index % 4 === 0 ? "3px" : "2px");
+      spark.style.setProperty("--duration", `${3.3 + (index % 5) * 0.9}s`);
+      spark.style.setProperty("--delay", `${-index * 0.73}s`);
+
       fragment.appendChild(spark);
     }
-    sparks.appendChild(fragment);
+
+    sparkContainer.appendChild(fragment);
   }
+
+  // -------------------------------------------------------------------------
+  // Entry point
+  // -------------------------------------------------------------------------
+  function initializeWebsite() {
+    initializeLanguageSwitcher();
+    initializeScrollProgress();
+
+    // Skip decorative motion when the visitor prefers reduced motion.
+    if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
+
+    initializeScrollReveal();
+    initializePointerEffects();
+    initializeHeroSparks();
+    initializeWeFusion();
+  }
+
+  initializeWebsite();
 })();
-</script>
-</body>
+
+    </script>
+    <script>
+/**
+ * WolvEden Production — Optional interactive effects (v3)
+ *
+ * Each feature has its own initializer and can be removed independently.
+ * The core website (language, WE fusion, links) lives in main.js.
+ *
+ * Accessibility:
+ * - Decorative effects ignore pointer events and screen readers.
+ * - Desktop effects require a fine pointer and normal motion preference.
+ * - The wolf Easter egg supports keyboard activation and never autoplays audio.
+ */
+(() => {
+  "use strict";
+
+  // -------------------------------------------------------------------------
+  // Shared configuration and localized UI text
+  // -------------------------------------------------------------------------
+  const DESKTOP_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+  const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+  const CONTACT_EMAIL = "contact@wolveden.com";
+  const PAW_MIN_INTERVAL_MS = 105;
+  const PAW_MIN_DISTANCE_PX = 68;
+  const PAW_MAX_ON_SCREEN = 8;
+  const EASTER_ACTIVATIONS = 3;
+  const EASTER_DISPLAY_MS = 6000;
+
+  const labels = {
+    en: {
+      logo: "WolvEden logo. Activate three times to discover a secret.",
+      secret: "Every dream begins with a pack.",
+      secretAnnouncement: "Secret unlocked: a glowing moon appears.",
+      soundOn: "Howl sound: on",
+      soundOff: "Howl sound: off",
+      copy: "Copy email address",
+      copied: "Email address copied!",
+      copyFailed: "Unable to copy. Please select the email address."
+    },
+    th: {
+      logo: "โลโก้ WolvEden กดสามครั้งเพื่อค้นพบความลับ",
+      secret: "ทุกความฝัน เริ่มต้นจากพวกเรา",
+      secretAnnouncement: "ปลดล็อกความลับแล้ว พระจันทร์ส่องแสงปรากฏขึ้น",
+      soundOn: "เสียงหมาป่า: เปิด",
+      soundOff: "เสียงหมาป่า: ปิด",
+      copy: "คัดลอกอีเมล",
+      copied: "คัดลอกอีเมลแล้ว!",
+      copyFailed: "คัดลอกไม่สำเร็จ กรุณาเลือกที่อยู่อีเมลเพื่อคัดลอก"
+    }
+  };
+
+  const prefersReducedMotion = () =>
+    window.matchMedia(REDUCED_MOTION_QUERY).matches;
+
+  const hasDesktopPointer = () =>
+    window.matchMedia(DESKTOP_POINTER_QUERY).matches;
+
+  const currentLabels = () =>
+    labels[document.documentElement.lang === "th" ? "th" : "en"];
+
+  // -------------------------------------------------------------------------
+  // 1. Living Aurora — change the ambient light across content sections
+  // -------------------------------------------------------------------------
+  function initializeLivingAurora() {
+    const scenes = Array.from(document.querySelectorAll("#hero, #about, #now, #contact"));
+    if (!scenes.length) return;
+
+    let animationFrame = 0;
+
+    function updateScene() {
+      animationFrame = 0;
+      const focusY = window.innerHeight * 0.54;
+      let nearestScene = scenes[0];
+      let nearestDistance = Infinity;
+
+      scenes.forEach((scene) => {
+        const rectangle = scene.getBoundingClientRect();
+        const distance = rectangle.top > focusY
+          ? rectangle.top - focusY
+          : rectangle.bottom < focusY
+            ? focusY - rectangle.bottom
+            : 0;
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestScene = scene;
+        }
+      });
+
+      const nextScene = nearestScene.id;
+      if (document.body.dataset.scene !== nextScene) {
+        document.body.dataset.scene = nextScene;
+      }
+    }
+
+    function requestSceneUpdate() {
+      if (animationFrame) return;
+      animationFrame = requestAnimationFrame(updateScene);
+    }
+
+    window.addEventListener("scroll", requestSceneUpdate, { passive: true });
+    window.addEventListener("resize", requestSceneUpdate, { passive: true });
+    updateScene();
+  }
+
+  // -------------------------------------------------------------------------
+  // 2. Paw trail — few prints, only while the mouse moves quickly
+  // -------------------------------------------------------------------------
+  function initializePawTrail() {
+    const layer = document.getElementById("pawTrailLayer");
+    if (!layer || !hasDesktopPointer()) return;
+
+    const pawMarkup = `
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <ellipse cx="6.5" cy="11" rx="3" ry="4" transform="rotate(-20 6.5 11)" />
+        <ellipse cx="13" cy="6.7" rx="3" ry="4" transform="rotate(-7 13 6.7)" />
+        <ellipse cx="21" cy="7" rx="3" ry="4" transform="rotate(13 21 7)" />
+        <ellipse cx="27" cy="12.5" rx="2.7" ry="3.7" transform="rotate(24 27 12.5)" />
+        <path d="M16.2 14c-3.1 0-4.9 2.5-6.9 5.2-1.1 1.5-2.1 2.8-1.7 4.7.5 2.3 3.2 3.6 5.7 2.5 1.6-.6 3.1-1 4.9-1 1.6 0 3.3.6 4.7 1.1 2.8 1 5.6-.6 5.6-3.5 0-1.5-1-2.7-2.2-4.1-2.1-2.8-3.9-5.9-7.6-5.9Z" />
+      </svg>
+    `;
+
+    let previousX = 0;
+    let previousY = 0;
+    let previousTime = 0;
+    let footIndex = 0;
+
+    document.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || prefersReducedMotion()) return;
+
+      const elapsed = event.timeStamp - previousTime;
+      const distance = Math.hypot(event.clientX - previousX, event.clientY - previousY);
+
+      if (!previousTime) {
+        previousX = event.clientX;
+        previousY = event.clientY;
+        previousTime = event.timeStamp;
+        return;
+      }
+
+      if (elapsed < PAW_MIN_INTERVAL_MS || distance < PAW_MIN_DISTANCE_PX) return;
+
+      previousX = event.clientX;
+      previousY = event.clientY;
+      previousTime = event.timeStamp;
+
+      // A slow mouse movement should not leave a trail.
+      if (distance / elapsed < 0.42) return;
+
+      while (layer.childElementCount >= PAW_MAX_ON_SCREEN) {
+        layer.firstElementChild.remove();
+      }
+
+      footIndex++;
+      const paw = document.createElement("span");
+      const sideOffset = footIndex % 2 === 0 ? 9 : -9;
+      const angle = Math.atan2(event.movementY, event.movementX) * 180 / Math.PI;
+      paw.className = "paw-print";
+      paw.innerHTML = pawMarkup;
+      paw.style.left = `${event.clientX + sideOffset}px`;
+      paw.style.top = `${event.clientY + (footIndex % 2 ? 6 : -6)}px`;
+      paw.style.setProperty("--paw-rotation", `${(angle + 90).toFixed(1)}deg`);
+      layer.appendChild(paw);
+
+      paw.addEventListener("animationend", () => paw.remove(), { once: true });
+      setTimeout(() => paw.remove(), 1300);
+    }, { passive: true });
+
+    window.addEventListener("blur", () => layer.replaceChildren());
+  }
+
+  // -------------------------------------------------------------------------
+  // 3. Wolf Howl Easter egg — moon appears after three logo activations
+  // -------------------------------------------------------------------------
+  function initializeWolfEasterEgg() {
+    const trigger = document.getElementById("wolfLogoTrigger");
+    const moon = document.getElementById("moonEasterEgg");
+    const message = document.getElementById("easterMessage");
+    const soundButton = document.getElementById("wolfSoundButton");
+    const soundLabel = document.getElementById("wolfSoundLabel");
+    const status = document.getElementById("wolfSecretStatus");
+    if (!trigger || !moon || !message || !soundButton || !soundLabel || !status) return;
+
+    let activations = 0;
+    let lastActivation = 0;
+    let unlocked = false;
+    let soundEnabled = false;
+    let hideTimer = null;
+    let audioContext = null;
+
+    function applyLocalizedLabels() {
+      const dictionary = currentLabels();
+      trigger.setAttribute("aria-label", dictionary.logo);
+      message.textContent = dictionary.secret;
+      soundLabel.textContent = soundEnabled ? dictionary.soundOn : dictionary.soundOff;
+      soundButton.setAttribute("aria-label", soundLabel.textContent);
+    }
+
+    // Soft synthesised vocal-like howl; no external sound file is required.
+    // Called only during an explicit click after sound has been enabled.
+    function playHowl() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+
+      try {
+        audioContext ??= new AudioContextClass();
+        if (audioContext.state === "suspended") audioContext.resume();
+
+        const start = audioContext.currentTime;
+        const volume = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 750;
+        volume.connect(filter);
+        filter.connect(audioContext.destination);
+        volume.gain.setValueAtTime(0.0001, start);
+        volume.gain.exponentialRampToValueAtTime(0.052, start + 0.32);
+        volume.gain.setValueAtTime(0.052, start + 0.85);
+        volume.gain.exponentialRampToValueAtTime(0.0001, start + 1.9);
+
+        [1, 1.99, 3.05].forEach((harmonic, index) => {
+          const oscillator = audioContext.createOscillator();
+          const balance = audioContext.createGain();
+          oscillator.type = index === 0 ? "sine" : "triangle";
+          oscillator.frequency.setValueAtTime((170 + index * 2) * harmonic, start);
+          oscillator.frequency.exponentialRampToValueAtTime(242 * harmonic, start + 0.72);
+          oscillator.frequency.exponentialRampToValueAtTime(180 * harmonic, start + 1.9);
+          balance.gain.value = [1, 0.18, 0.065][index];
+          oscillator.connect(balance);
+          balance.connect(volume);
+          oscillator.start(start);
+          oscillator.stop(start + 1.93);
+          oscillator.onended = () => { oscillator.disconnect(); balance.disconnect(); };
+        });
+      } catch (error) {
+        // Visual secret still works if Web Audio is blocked or unsupported.
+      }
+    }
+
+    function showEasterEgg() {
+      moon.classList.remove("is-awake");
+      // Restart the short reveal animation on subsequent activations.
+      void moon.offsetWidth;
+      moon.classList.add("is-awake");
+      soundButton.hidden = false;
+      status.textContent = currentLabels().secretAnnouncement;
+
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        moon.classList.remove("is-awake");
+        status.textContent = "";
+      }, EASTER_DISPLAY_MS);
+
+      if (soundEnabled) playHowl();
+    }
+
+    trigger.addEventListener("click", () => {
+      if (unlocked) {
+        showEasterEgg();
+        return;
+      }
+
+      const now = Date.now();
+      activations = now - lastActivation > 2700 ? 1 : activations + 1;
+      lastActivation = now;
+
+      if (activations >= EASTER_ACTIVATIONS) {
+        unlocked = true;
+        showEasterEgg();
+      }
+    });
+
+    soundButton.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      soundButton.setAttribute("aria-pressed", String(soundEnabled));
+      applyLocalizedLabels();
+      if (soundEnabled) playHowl();
+    });
+
+    document.addEventListener("wolveden:languagechange", applyLocalizedLabels);
+    applyLocalizedLabels();
+  }
+
+  // -------------------------------------------------------------------------
+  // 4. Development signal — runs only while its section is visible
+  // -------------------------------------------------------------------------
+  function initializeDevelopmentSignal() {
+    const card = document.getElementById("statusCard");
+    if (!card || prefersReducedMotion()) return;
+
+    if (!("IntersectionObserver" in window)) {
+      card.classList.add("is-signal-active");
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        card.classList.toggle("is-signal-active", entry.isIntersecting);
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(card);
+  }
+
+  // -------------------------------------------------------------------------
+  // 5. Kinetic typography and one-time light sweep
+  // -------------------------------------------------------------------------
+  function initializeHeadingEffects() {
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) return;
+
+    const sections = Array.from(document.querySelectorAll(".section"));
+    const headings = sections.map((section) => section.querySelector("h2")).filter(Boolean);
+
+    function splitHeadingIntoCharacters(heading) {
+      const label = heading.textContent.trim();
+      const characters = typeof Intl.Segmenter === "function"
+        ? Array.from(new Intl.Segmenter(document.documentElement.lang, {
+            granularity: "grapheme"
+          }).segment(label), (part) => part.segment)
+        : Array.from(label);
+
+      // Screen readers receive the entire text once, not individual letters.
+      heading.setAttribute("aria-label", label);
+      const fragment = document.createDocumentFragment();
+
+      characters.forEach((character, index) => {
+        const span = document.createElement("span");
+        span.className = "kinetic-character";
+        span.setAttribute("aria-hidden", "true");
+        span.style.setProperty("--character-index", String(Math.min(index, 34)));
+        span.textContent = character;
+        fragment.appendChild(span);
+      });
+
+      heading.replaceChildren(fragment);
+    }
+
+    headings.forEach(splitHeadingIntoCharacters);
+
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-v3-revealed");
+        entry.target.querySelector("h2")?.classList.add("is-kinetic-visible");
+        currentObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -15px 0px" });
+
+    sections.forEach((section) => observer.observe(section));
+
+    // main.js updates translated headings as normal text; decorate them again.
+    document.addEventListener("wolveden:languagechange", () => {
+      headings.forEach((heading) => {
+        const wasVisible = heading.classList.contains("is-kinetic-visible");
+        heading.classList.remove("is-kinetic-visible");
+        splitHeadingIntoCharacters(heading);
+        if (wasVisible) {
+          requestAnimationFrame(() => heading.classList.add("is-kinetic-visible"));
+        }
+      });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // 6. Ripple feedback for buttons and links
+  // -------------------------------------------------------------------------
+  function initializeClickRipples() {
+    const controls = document.querySelectorAll(
+      ".button, .language-button, .brand-replay-button, .wolf-logo-trigger, " +
+      ".wolf-sound-button, .copy-email-button"
+    );
+
+    controls.forEach((control) => {
+      control.classList.add("fx-ripple-host");
+      control.addEventListener("click", (event) => {
+        if (prefersReducedMotion()) return;
+        const rectangle = control.getBoundingClientRect();
+        const x = event.detail === 0 ? rectangle.width / 2 : event.clientX - rectangle.left;
+        const y = event.detail === 0 ? rectangle.height / 2 : event.clientY - rectangle.top;
+        const ripple = document.createElement("span");
+        ripple.className = "fx-click-ripple";
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+        control.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 750);
+      });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // 7. Copy email to clipboard with localized status feedback
+  // -------------------------------------------------------------------------
+  function initializeCopyEmail() {
+    const button = document.getElementById("copyEmailButton");
+    const feedback = document.getElementById("copyFeedback");
+    if (!button || !feedback) return;
+
+    let feedbackTimer = 0;
+
+    function updateButtonLabel() {
+      const label = currentLabels().copy;
+      button.setAttribute("aria-label", label);
+      button.setAttribute("title", label);
+      // Clear previous-language announcements when switching languages.
+      feedback.textContent = "";
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (error) {
+          // Fall back below (for example, on a local file:// page).
+        }
+      }
+
+      const temporaryField = document.createElement("textarea");
+      temporaryField.value = text;
+      temporaryField.readOnly = true;
+      temporaryField.style.position = "fixed";
+      temporaryField.style.opacity = "0";
+      document.body.appendChild(temporaryField);
+      temporaryField.select();
+      let succeeded = false;
+      try { succeeded = document.execCommand("copy"); } catch (error) { /* no-op */ }
+      temporaryField.remove();
+      return succeeded;
+    }
+
+    button.addEventListener("click", async () => {
+      const succeeded = await copyText(CONTACT_EMAIL);
+      feedback.textContent = succeeded ? currentLabels().copied : currentLabels().copyFailed;
+      button.classList.toggle("is-copied", succeeded);
+      clearTimeout(feedbackTimer);
+      feedbackTimer = setTimeout(() => {
+        feedback.textContent = "";
+        button.classList.remove("is-copied");
+      }, 2800);
+    });
+
+    document.addEventListener("wolveden:languagechange", updateButtonLabel);
+    updateButtonLabel();
+  }
+
+  // -------------------------------------------------------------------------
+  // 8. Constellation — lightweight, pointer-driven canvas in the hero
+  // -------------------------------------------------------------------------
+  function initializeConstellation() {
+    const canvas = document.getElementById("heroConstellation");
+    const hero = document.getElementById("hero");
+    if (!canvas || !hero || !hasDesktopPointer()) return;
+
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) return;
+
+    const STAR_COUNT = 31;
+    const nodes = [];
+    const pointer = { x: 0, y: 0, active: false };
+    let width = 0;
+    let height = 0;
+    let frameRequested = false;
+    let heroVisible = true;
+
+    // Fixed distribution means the scene is stable between visits.
+    for (let index = 0; index < STAR_COUNT; index++) {
+      nodes.push({
+        u: (8 + (index * 37) % 85) / 100,
+        v: (9 + (index * 53) % 80) / 100,
+        radius: index % 5 === 0 ? 2.1 : 1.25
+      });
+    }
+
+    function render() {
+      frameRequested = false;
+      context.clearRect(0, 0, width, height);
+
+      nodes.forEach((node, index) => {
+        const x = node.u * width;
+        const y = node.v * height;
+        const distance = Math.hypot(x - pointer.x, y - pointer.y);
+        const strength = pointer.active ? Math.max(0, 1 - distance / 210) : 0;
+        context.beginPath();
+        context.arc(x, y, node.radius + strength * 0.7, 0, Math.PI * 2);
+        context.fillStyle = `rgba(217, 156, 240, ${0.15 + strength * 0.60})`;
+        context.fill();
+
+        if (!strength) return;
+        for (let otherIndex = index + 1; otherIndex < nodes.length; otherIndex++) {
+          const other = nodes[otherIndex];
+          const ox = other.u * width;
+          const oy = other.v * height;
+          const separation = Math.hypot(x - ox, y - oy);
+          const otherStrength = Math.max(0, 1 - Math.hypot(ox - pointer.x, oy - pointer.y) / 210);
+
+          if (separation > 156 || otherStrength < 0.16) continue;
+          context.beginPath();
+          context.moveTo(x, y);
+          context.lineTo(ox, oy);
+          context.strokeStyle = `rgba(190, 111, 222, ${Math.min(strength, otherStrength) * 0.33})`;
+          context.lineWidth = 0.9;
+          context.stroke();
+        }
+      });
+    }
+
+    function scheduleRender() {
+      if (frameRequested || !heroVisible || prefersReducedMotion()) return;
+      frameRequested = true;
+      requestAnimationFrame(render);
+    }
+
+    function resizeCanvas() {
+      const rect = hero.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      scheduleRender();
+    }
+
+    hero.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse") return;
+      const rectangle = hero.getBoundingClientRect();
+      pointer.x = event.clientX - rectangle.left;
+      pointer.y = event.clientY - rectangle.top;
+      pointer.active = true;
+      scheduleRender();
+    }, { passive: true });
+
+    hero.addEventListener("pointerleave", () => {
+      pointer.active = false;
+      scheduleRender();
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        heroVisible = entries[0]?.isIntersecting ?? false;
+        if (heroVisible) scheduleRender();
+      }, { threshold: 0 });
+      observer.observe(hero);
+    }
+
+    window.addEventListener("resize", resizeCanvas, { passive: true });
+    resizeCanvas();
+  }
+
+  function initializeV3() {
+    // Core usability enhancements must work on every device.
+    initializeWolfEasterEgg();
+    initializeCopyEmail();
+    initializeLivingAurora();
+
+    // Reduced-motion visitors get static backgrounds and a static Easter egg.
+    if (prefersReducedMotion()) return;
+
+    initializeDevelopmentSignal();
+    initializeHeadingEffects();
+    initializeClickRipples();
+
+    if (hasDesktopPointer()) {
+      initializePawTrail();
+      initializeConstellation();
+    }
+  }
+
+  initializeV3();
+})();
+
+    </script>
+  </body>
 </html>
