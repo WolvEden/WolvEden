@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap"
       rel="stylesheet"
     >
-    <style>
+<style>
 /* ============================================================================
    WolvEden Production — Main stylesheet
    ============================================================================
@@ -990,7 +990,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   /* A quiet moon behind the wolf, sized relative to the logo—not the viewport. */
   position: absolute;
   z-index: 0;
-  top: calc(42% - 9px);
+  top: calc(42% - 23px);
   left: 50%;
   width: 80%;
   aspect-ratio: 1;
@@ -1023,6 +1023,8 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
   -webkit-mask-image: radial-gradient(circle, #000 0 91%, rgba(0, 0, 0, 0.94) 95%, transparent 100%);
   mask-image: radial-gradient(circle, #000 0 91%, rgba(0, 0, 0, 0.94) 95%, transparent 100%);
   box-shadow: inset -15px -18px 28px rgba(123, 132, 150, 0.23);
+  /* Dim only the lunar disc, leaving the halo and logo unchanged. */
+  filter: brightness(0.88);
 }
 
 .hero-logo-stage.is-awake .easter-moon {
@@ -1338,7 +1340,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 @media (max-width: 600px) {
   .aurora-layer { opacity: .32; }
   .aurora-blob { filter: blur(55px); width: 90vw; }
-  .easter-moon { top: calc(42% - 7px); width: 80%; }
+  .easter-moon { top: calc(42% - 21px); width: 80%; }
   .easter-message { bottom: 8%; }
   .hero-constellation, .paw-trail-layer { display: none; }
 }
@@ -1382,7 +1384,8 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
     animation-play-state: paused;
   }
 }
-    </style>
+
+</style>
   </head>
 
   <body data-scene="hero">
@@ -1614,7 +1617,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
         <!-- TODO: Add a Privacy Policy link after publishing that page. -->
       </div>
     </footer>
-    <script>
+  <script>
 /**
  * WolvEden Production — Website behavior
  *
@@ -2119,8 +2122,9 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
   initializeWebsite();
 })();
-    </script>
-    <script>
+
+</script>
+<script>
 /**
  * WolvEden Production — Optional interactive effects (v3)
  *
@@ -2757,6 +2761,7 @@ body[data-scene="contact"] .aurora-blob--two { opacity: 0.75; }
 
   initializeV3();
 })();
-    </script>
-  </body>
+
+</script>
+</body>
 </html>
