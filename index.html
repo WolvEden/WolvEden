@@ -1,17 +1,202 @@
-<html>
-	<link rel="icon" type="image/png" href="Logo2.png" />
-	  <head>
-    <meta charset="utf-8">
-	<title>🐺 WolvEden 🐺</title>
-	  </head>
-	<body style="background-color:#202224" class="loading" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
-	<div style=" display: flex;align-items: center;justify-content: center;height:100%;width:100%;">
-		<img src="Logo2.png" ; />
-	</div>
-		<script>
-			window.onload = function() { document.body.className = ''; }
-			window.ontouchmove = function() { return false; }
-			window.onorientationchange = function() { document.body.scrollTop = 0; }
-		</script>
-	</body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WolvEden Production 🐺</title>
+<meta name="description" content="WolvEden Production — a small team from Thailand making our own games.">
+
+<link rel="icon" type="image/png" href="Logo2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1c1d21;
+    --surface:#25262c;
+    --line:#34353d;
+    --text:#f3f1f6;
+    --muted:#a8a2b2;
+    --purple:#8f2fc2;
+    --magenta:#c4317a;
+    --red:#e0303f;
+    --grad:linear-gradient(135deg,var(--purple),var(--magenta));
+    --head:"Chakra Petch",system-ui,sans-serif;
+    --body:"IBM Plex Sans Thai",system-ui,sans-serif;
+    --max:760px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font:400 17px/1.7 var(--body);overflow-x:hidden}
+  html[lang="th"] body{line-height:1.85}
+  a{color:inherit}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* Top bar: แค่ปุ่มเปลี่ยนภาษา */
+  .top{position:absolute;top:16px;right:16px;z-index:5}
+  .lang{font:700 13px var(--head);letter-spacing:.06em;color:var(--text);background:rgba(37,38,44,.8);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;cursor:pointer}
+  .lang:hover{border-color:var(--magenta)}
+
+  /* Hero */
+  .hero{position:relative;min-height:92svh;display:grid;place-items:center;text-align:center;padding:72px 0 56px;isolation:isolate}
+  .shards{position:absolute;inset:0;z-index:-1;width:100%;height:100%;opacity:.12;pointer-events:none}
+  .hero::before{content:"";position:absolute;z-index:-1;width:min(520px,90vw);aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,rgba(196,49,122,.26),rgba(143,47,194,.1) 45%,transparent 70%);left:50%;top:42%;transform:translate(-50%,-50%)}
+  .hero img{width:min(340px,74vw);height:auto;display:block;margin:0 auto}
+  .hi{margin-top:22px;font:700 clamp(26px,6.4vw,36px)/1.25 var(--head)}
+  .hi em{font-style:normal;font-size:1.45em;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 10px rgba(196,49,122,.5));padding:0 .02em}
+  .hero p.sub{margin:8px auto 0;max-width:34ch;color:var(--muted);font-size:18px}
+
+  /* ปุ่มลิงก์ (เพิ่มในอนาคต) */
+  .links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+  .btn{font:700 15px var(--head);letter-spacing:.03em;text-decoration:none;padding:11px 22px;border-radius:999px}
+  .btn.primary{background:var(--grad);color:#fff}
+  .btn.ghost{background:var(--surface);border:1px solid var(--line)}
+  .btn:hover{filter:brightness(1.12)}
+
+  /* Sections */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  h2{font:700 clamp(24px,5.4vw,30px)/1.3 var(--head);margin-bottom:14px}
+  section p{color:var(--muted)}
+  section p+p{margin-top:12px}
+  section p b{color:var(--text);font-weight:500}
+
+  .we{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font:700 18px var(--head)}
+  .we span{background:var(--surface);border:1px solid var(--line);padding:6px 14px;border-radius:999px}
+  .we i{font-style:normal;color:var(--muted)}
+  .we em,section p b em{font-style:normal;font-size:1.3em;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .we .we-total{font-size:1.5em;padding:4px 18px;border-color:var(--magenta);box-shadow:0 0 18px rgba(196,49,122,.35)}
+  section p b.wegrad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700;font-size:1.15em}
+
+  .cares{display:grid;gap:12px;margin-top:22px}
+  @media (min-width:640px){.cares{grid-template-columns:1fr 1fr}}
+  .care{background:var(--surface);border-radius:14px;padding:18px 20px}
+  .care b{display:block;font:700 17px var(--head);margin-bottom:4px}
+  .care b::first-letter{color:var(--magenta)}
+  .care p{font-size:15.5px}
+
+  .now{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border-radius:14px;padding:20px}
+  .dot{flex:none;width:12px;height:12px;margin-top:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 6px rgba(224,48,63,.15)}
+  @media (prefers-reduced-motion:no-preference){.dot{animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{50%{box-shadow:0 0 0 10px rgba(224,48,63,.05)}}}
+
+  .contact{text-align:center}
+  .mail{display:inline-block;margin-top:14px;font:700 clamp(20px,5.4vw,26px) var(--head);text-decoration:none;
+    padding-bottom:3px;border-bottom:2px solid var(--magenta);word-break:break-all}
+  .mail:hover{color:#fff;border-color:var(--purple)}
+
+  footer{border-top:1px solid var(--line);padding:24px 0 32px;font-size:13px;color:var(--muted);text-align:center}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--text)}
+
+  @media (prefers-reduced-motion:no-preference){
+    .hero img{animation:rise .9s ease-out both}
+    .hi,.hero p.sub,.links{animation:rise .9s .15s ease-out both}
+    @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+
+<div class="top"><button class="lang" id="langBtn" type="button" aria-label="Switch language">ไทย</button></div>
+
+<header class="hero">
+  <svg class="shards" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f2fc2"/><stop offset="1" stop-color="#c4317a"/></linearGradient></defs>
+    <g fill="url(#g)">
+      <polygon points="80,60 230,40 330,210 250,225"/>
+      <polygon points="720,30 800,40 690,260 640,240"/>
+      <polygon points="880,330 990,320 930,400 820,410"/>
+      <polygon points="40,520 180,470 150,560 20,610"/>
+      <polygon points="760,560 900,640 860,700 720,620"/>
+      <polygon points="400,700 470,690 440,790 380,800"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <img src="https://wolveden.com/Logo2.png" alt="WolvEden Production">
+    <h1 class="hi" data-i18n="hi">Hi, we're <em>W</em>olv<em>E</em>den 🐺</h1>
+    <p class="sub" data-i18n="sub">A small team from Thailand making our own games.</p>
+
+    <!-- ===== ปุ่มลิงก์: เพิ่มทีหลังเมื่อมีของใหม่ =====
+         ตัวอย่าง (copy ไปวางใน div.links แล้วแก้ href):
+         <a class="btn primary" href="https://store.steampowered.com/app/...">Wishlist on Steam</a>
+         <a class="btn ghost" href="https://xxx.itch.io/...">Play on itch.io</a>
+         <a class="btn ghost" href="https://discord.gg/...">Join our Discord</a>
+    -->
+    <div class="links">
+      <a class="btn ghost" href="#contact" data-i18n="say_hi">Say hi 👋</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <h2 data-i18n="about_t">About us</h2>
+    <p data-i18n="about_p1">We're a tiny studio that really loves games. Our name comes from two words. <b><em>W</em>olve</b> is our pack, a group of creators who are each good at different things. <b><em>E</em>den</b> is where we're free to make whatever we dream up.</p>
+    <p data-i18n="about_p2">Take the W and the E, and you get <b class="wegrad">WE</b>. That's us.</p>
+    <div class="we" aria-label="Wolve plus Eden equals WE"><span><em>W</em>olve</span><i>+</i><span><em>E</em>den</span><i>=</i><span class="we-total"><b class="grad-text">WE</b></span></div>
+  </div>
+</section>
+
+<section id="now">
+  <div class="wrap">
+    <h2 data-i18n="now_t">What we're up to</h2>
+    <div class="now">
+      <span class="dot" aria-hidden="true"></span>
+      <p data-i18n="now_p">Working on an original game of our own. Nothing to show just yet. We'll share it here when it's ready.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2 data-i18n="contact_t">Let's talk</h2>
+    <p data-i18n="contact_p">Got a project in mind, or a game idea that needs our services? Tell us about it.</p>
+    <a class="mail" href="mailto:contact@wolveden.com">contact@wolveden.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span data-i18n="footer">© 2026 WolvEden Production Co., Ltd.</span>
+    <!-- TODO: เพิ่มลิงก์ Privacy Policy เมื่อมีหน้าจริง (ต้องมีก่อนลงเกมใน store) -->
+  </div>
+</footer>
+
+<script>
+(function(){
+  var TH = {
+    hi:"สวัสดี เราคือ <em>W</em>olv<em>E</em>den 🐺",
+    sub:"สตูดิโอเกมเล็กๆ จากประเทศไทย ที่กำลังสร้างเกมในแบบของเราเอง",
+    say_hi:"ทักทายเรา 👋",
+    about_t:"เกี่ยวกับเรา",
+    about_p1:"เราเป็นทีมที่หลงใหลในการสร้างเกม ชื่อ WolvEden เกิดจากการรวมกันของสองคำ <b><em>W</em>olve</b> คือฝูงของเรา กลุ่มนักสร้างที่แต่ละคนมีความถนัดแตกต่างกัน ส่วน <b><em>E</em>den</b> คือพื้นที่ที่เราได้สร้างสรรค์สิ่งที่ฝันไว้อย่างอิสระ",
+    about_p2:"เมื่อ W จาก Wolve และ E จาก Eden มารวมกัน ก็กลายเป็น <b class='wegrad'>WE</b> คำสั้นๆ ที่หมายถึง “พวกเรา”",
+    now_t:"ตอนนี้เรากำลังทำอะไร",
+    now_p:"ตอนนี้เรากำลังพัฒนาเกมของเราเองอยู่ ยังไม่มีอะไรให้ดูก็จริง แต่พร้อมเมื่อไหร่จะมาอวดที่นี่แน่นอน",
+    contact_t:"มาคุยกัน",
+    contact_p:"มีโปรเจกต์ที่อยากทำ หรือไอเดียเกมที่กำลังมองหาคนช่วยพัฒนา? เล่าให้เราฟังได้เลย",
+    footer:"© 2026 บริษัท วู๊ล์ฟอีเด็น โปรดักชั่น จำกัด"
+  };
+  var nodes = document.querySelectorAll("[data-i18n]");
+  var EN = {};
+  nodes.forEach(function(n){ EN[n.dataset.i18n] = n.innerHTML; });
+  var btn = document.getElementById("langBtn");
+  function apply(lang){
+    var dict = lang === "th" ? TH : EN;
+    nodes.forEach(function(n){ var k = n.dataset.i18n; if (dict[k] != null) n.innerHTML = dict[k]; });
+    document.documentElement.lang = lang;
+    btn.textContent = lang === "th" ? "EN" : "ไทย";
+    try { localStorage.setItem("wdp_lang", lang); } catch(e) {}
+  }
+  btn.addEventListener("click", function(){ apply(document.documentElement.lang === "th" ? "en" : "th"); });
+  var saved = null;
+  try { saved = localStorage.getItem("wdp_lang"); } catch(e) {}
+  if (saved === "th") apply("th");
+})();
+</script>
+</body>
 </html>
